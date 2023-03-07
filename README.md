@@ -44,4 +44,4 @@ clang -emit-llvm -S ./test/spammodule.c -I /Library/Developer/CommandLineTools/L
 
 ## 下一阶段目标
 
-针对不同语句（load）
+针对不同语句给出引用计数增减情况或者分析方法的定义
