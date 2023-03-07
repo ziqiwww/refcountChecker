@@ -1,0 +1,4 @@
+{
+    "analysesMode":"intra",
+    "entryFunction": "spam_system"
+}
