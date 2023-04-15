@@ -54,7 +54,7 @@ namespace {
 
     private:
         /// tool configuration
-        Parser::AnaParam param;
+        Parser::AnaParam params;
 
         ///special APIs
         std::set<srcAPI> retStrongAPI;

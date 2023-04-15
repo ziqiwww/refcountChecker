@@ -2,6 +2,7 @@ add_library(RefcntAnalysis MODULE
         # List your source files here.
         analysis/RefcntAnalysis.cpp
         preproc/JsonParser.cpp
+        printer/CFGDrawer.hpp
         )
 
 target_compile_features(RefcntAnalysis PRIVATE cxx_range_for cxx_auto_type)

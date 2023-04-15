@@ -11851,8 +11851,8 @@ class binary_reader
     @brief read a number from the input
 
     @tparam NumberType the type of the number
-    @param[in] format   the current format (for diagnostics)
-    @param[out] result  number of type @a NumberType
+    @params[in] format   the current format (for diagnostics)
+    @params[out] result  number of type @a NumberType
 
     @return whether conversion completed
 
@@ -13840,23 +13840,23 @@ class json_pointer
     /// @brief create a new JSON pointer by appending the right JSON pointer at the end of the left JSON pointer
     /// @sa https://json.nlohmann.me/api/json_pointer/operator_slash/
     friend json_pointer operator/(const json_pointer& lhs,
-                                  const json_pointer& rhs)
+    const json_pointer& rhs)
     {
-        return json_pointer(lhs) /= rhs;
+    return json_pointer(lhs) /= rhs;
     }
 
     /// @brief create a new JSON pointer by appending the unescaped token at the end of the JSON pointer
     /// @sa https://json.nlohmann.me/api/json_pointer/operator_slash/
-    friend json_pointer operator/(const json_pointer& lhs, string_t token) // NOLINT(performance-unnecessary-value-param)
+    friend json_pointer operator/(const json_pointer& lhs, string_t token) // NOLINT(performance-unnecessary-value-params)
     {
-        return json_pointer(lhs) /= std::move(token);
+    return json_pointer(lhs) /= std::move(token);
     }
 
     /// @brief create a new JSON pointer by appending the array-index-token at the end of the JSON pointer
     /// @sa https://json.nlohmann.me/api/json_pointer/operator_slash/
     friend json_pointer operator/(const json_pointer& lhs, std::size_t array_idx)
     {
-        return json_pointer(lhs) /= array_idx;
+    return json_pointer(lhs) /= array_idx;
     }
 
     /// @brief returns the parent of this JSON pointer
@@ -16683,8 +16683,8 @@ class binary_writer
 
     /*
     @brief write a number to output input
-    @param[in] n number of type @a NumberType
-    @param[in] OutputIsLittleEndian Set to true if output data is
+    @params[in] n number of type @a NumberType
+    @params[in] OutputIsLittleEndian Set to true if output data is
                                  required to be little endian
     @tparam NumberType the type of the number
 

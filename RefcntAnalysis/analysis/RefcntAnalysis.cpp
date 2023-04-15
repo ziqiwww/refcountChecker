@@ -1,9 +1,11 @@
 #include <llvm/IR/CFG.h>
 #include <llvm/Support/Debug.h>
+#include <llvm/Support/GraphWriter.h>
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
 #include "common/config.h"
+#include "printer/CFGDrawer.hpp"
 
 void print_one_entry(Instruction *inst, int idx) {
     errs() << "\t\t\U0001F504 ";
@@ -16,12 +18,12 @@ void print_one_entry(Instruction *inst, int idx) {
 void RefcntPass::init_pass() {
     // TODO: initialize pass data structures and use json to configure
     Parser::JsonParser parser;
-    if(parser.parse("./settings.json")){
+    if (parser.parse("./settings.json")) {
         outs() << "use settings.json to configure\n";
-    }else{
+    } else {
         outs() << "use default settings";
     }
-    param = parser.anaParams;
+    params = parser.anaParams;
 
 #ifdef DEBUG
 
@@ -37,7 +39,7 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
     // TODO: do additional set up before traversing entry
 
     // preparation finished
-    if (param.analysesMode == "inter") {
+    if (params.analysesMode == "inter") {
         interAnalysis(fun_entry);
     } else {
         intraAnalysis(fun_entry);
@@ -46,6 +48,7 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
 
 void RefcntPass::intraAnalysis(Function *cur_func) {
     // TODO: do interprocedure analysis for cur func
+    printCFG(cur_func);
     // mainly focus on
     if (cur_func->empty())
         return;
@@ -53,6 +56,7 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
     using std::deque, std::set;
     deque<BasicBlock *> workList;
     set<BasicBlock *> visited;
+    // we do forward analysis
     workList.emplace_back(&cur_func->getEntryBlock());
     while (!workList.empty()) {
         // currently analyzed block
@@ -61,31 +65,44 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
         if (visited.find(block) != visited.end()) continue;
         visited.insert(block);
 
-        for (const Instruction &inst : *block) {
+        for (const Instruction &inst: *block) {
             unsigned op = inst.getOpcode();
             switch (op) {
                 // TODO: discuss which instructions we care about most
-            case Instruction::Call: {
-                auto *call = dyn_cast<CallInst>(&inst);
-                auto name = call->getName();
+                case Instruction::Call: {
+                    auto *call = dyn_cast<CallInst>(&inst);
+                    llvm::Function *calledFunction = call->getCalledFunction();
+                    llvm::Value *receiverValue = call->getArgOperand(0);
+                    std::string receiverName = receiverValue->getName().str();
+                    auto name = calledFunction->getName();
+#ifdef DEBUG
+                    outs() << raw_fd_ostream::YELLOW
+                           << "receiver: " << receiverValue << " call method " << name << "\n"
+                           << raw_fd_ostream::RESET;
+#endif
+                    // TODO: discuss how to report bugs found below
+                    if (name == INCREF_STR) {
 
-                // TODO: discuss how to report bugs found below
-                if (name == INCREF_STR) {
+                    } else if (name == XINCREF_STR) {
 
-                } else if (name == XINCREF_STR) {
+                    } else if (name == DECREF_STR) {
 
-                } else if (name == DECREF_STR) {
+                    } else if (name == XDECREF_STR) {
 
-                } else if (name == XDECREF_STR) {
-
-                } else {
-                    // TODO: check if it's a special API, aka in retStrongAPI/retWeakAPI/argBorrowAPI/argStealAPI
-                    // suggest using another function to do so which processes the api's behavior
+                    } else {
+                        // TODO: check if it's a special API, aka in retStrongAPI/retWeakAPI/argBorrowAPI/argStealAPI
+                        // suggest using another function to do so which processes the api's behavior
+                    }
+                    break;
                 }
-                break;
+                default:
+                    break;
             }
-            default:
-                break;
+        }
+
+        for (BasicBlock *succ: successors(block)) {
+            if (/*some condition*/1) {
+                workList.emplace_back(succ);
             }
         }
     }
@@ -105,9 +122,9 @@ bool RefcntPass::runOnModule(Module &M) {
     Function *entry_func = nullptr;
     Function *main_func = nullptr;
     // looping through functions to find the main functions.
-    for (auto &f : M) {
+    for (auto &f: M) {
         auto f_name = f.getName();
-        if (!strcmp(f_name.data(), param.entryFunction.c_str())) {
+        if (!strcmp(f_name.data(), params.entryFunction.c_str())) {
             entry_func = &f;
             break;
         } else if (strcmp(f_name.data(), "main") == 0) {
@@ -127,7 +144,8 @@ bool RefcntPass::runOnModule(Module &M) {
 #ifdef DEBUG
         // FIXME: abstract debug into one function
         outs() << raw_fd_ostream::YELLOW
-               << "analyze mode: " << param.analysesMode << ", entry function: " << param.entryFunction << "\n"
+               << "Analysis begin, analysis mode: " << params.analysesMode << ", entry function: "
+               << params.entryFunction << "\n"
                << raw_fd_ostream::RESET;
 #endif
         refcntAnalysis(entry_func);
