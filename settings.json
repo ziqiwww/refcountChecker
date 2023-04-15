@@ -1,4 +1,10 @@
 {
-    "analysesMode":"intra",
-    "entryFunction": "spam_system"
+    "ToolConfig": {
+
+    },
+    "AnalyzeConfig": {
+        "analysesMode":"intra",
+        "targetModulePath": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
+        "entryFunction": "PyInit_spam"
+    }
 }

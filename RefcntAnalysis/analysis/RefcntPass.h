@@ -17,6 +17,8 @@
 #include <set>
 #include <vector>
 
+#include "preproc/JsonParser.h"
+
 #define INCREF_STR "_Py_INCREF"
 #define XINCREF_STR "_Py_XINCREF"
 #define DECREF_STR "_Py_DECREF"
@@ -51,9 +53,8 @@ namespace {
         };
 
     private:
-        /// basic properties
-        std::string AnalysesMode = "inter";
-        std::string EntryFunction = "main";
+        /// tool configuration
+        Parser::AnaParam param;
 
         ///special APIs
         std::set<srcAPI> retStrongAPI;

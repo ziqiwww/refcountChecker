@@ -1,11 +1,9 @@
 #include <llvm/IR/CFG.h>
 #include <llvm/Support/Debug.h>
-#include <nlohmann/json.hpp>
-#include <fstream>
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
-#include "config.h"
+#include "common/config.h"
 
 void print_one_entry(Instruction *inst, int idx) {
     errs() << "\t\t\U0001F504 ";
@@ -17,26 +15,13 @@ void print_one_entry(Instruction *inst, int idx) {
 
 void RefcntPass::init_pass() {
     // TODO: initialize pass data structures and use json to configure
-
-    using json = nlohmann::json;
-    std::ifstream jfile("./settings.json", std::ios::in);
-    if (!jfile.is_open()) {
-        outs() << "settings.json is not open, will use default settings\n";
-    } else {
-        try {
-            json config = json::parse(jfile);
-            auto mode = config.at("analysesMode");
-            if (mode == "inter" || mode == "intra")
-                AnalysesMode = mode;
-            else
-                outs() << "mode setting is invalid, will use default setting(interprocedual)\n";
-            auto entry = config.at("entryFunction");
-            if (entry != nullptr)
-                EntryFunction = entry;
-        } catch (const std::exception &e) {
-            errs() << "error occurred when parsing json\n";
-        }
+    Parser::JsonParser parser;
+    if(parser.parse("./settings.json")){
+        outs() << "use settings.json to configure\n";
+    }else{
+        outs() << "use default settings";
     }
+    param = parser.anaParams;
 
 #ifdef DEBUG
 
@@ -49,10 +34,10 @@ void RefcntPass::init_pass() {
 void RefcntPass::refcntAnalysis(Function *fun_entry) {
     // start from the entry function,
     //
-    // TODO: do additional set up before traverse entry
+    // TODO: do additional set up before traversing entry
 
     // preparation finished
-    if (AnalysesMode == "inter") {
+    if (param.analysesMode == "inter") {
         interAnalysis(fun_entry);
     } else {
         intraAnalysis(fun_entry);
@@ -62,7 +47,7 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
 void RefcntPass::intraAnalysis(Function *cur_func) {
     // TODO: do interprocedure analysis for cur func
     // mainly focus on
-    if (cur_func->size() == 0)
+    if (cur_func->empty())
         return;
     // prepare to traverse CFG
     using std::deque, std::set;
@@ -117,13 +102,12 @@ void RefcntPass::CheckBeforeRet() {
 bool RefcntPass::runOnModule(Module &M) {
 
     init_pass();
-
     Function *entry_func = nullptr;
     Function *main_func = nullptr;
     // looping through functions to find the main functions.
     for (auto &f : M) {
         auto f_name = f.getName();
-        if (!strcmp(f_name.data(), EntryFunction.c_str())) {
+        if (!strcmp(f_name.data(), param.entryFunction.c_str())) {
             entry_func = &f;
             break;
         } else if (strcmp(f_name.data(), "main") == 0) {
@@ -137,18 +121,13 @@ bool RefcntPass::runOnModule(Module &M) {
         } else
             errs() << "no entry or main function is determined\n";
     }
-#ifdef DEBUG
-    outs() << raw_fd_ostream::YELLOW
-           << "directory" << std::filesystem::current_path() << "\n"
-           << raw_fd_ostream::RESET;
-#endif
     outs() << "====================analyses starts=======================\n";
     if (entry_func != nullptr) {
 // Ok. we have main function now.
 #ifdef DEBUG
         // FIXME: abstract debug into one function
         outs() << raw_fd_ostream::YELLOW
-               << "analyses mode: " << AnalysesMode << ", entry function: " << EntryFunction << "\n"
+               << "analyze mode: " << param.analysesMode << ", entry function: " << param.entryFunction << "\n"
                << raw_fd_ostream::RESET;
 #endif
         refcntAnalysis(entry_func);
