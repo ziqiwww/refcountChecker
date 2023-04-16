@@ -4,4 +4,5 @@ build/
 cmake-build-release/
 cmake-build-debug/
 target/
+result/
 .DS_Store

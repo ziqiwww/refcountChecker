@@ -16,7 +16,9 @@
 #include <llvm/Support/raw_ostream.h>
 #include <set>
 #include <vector>
+#include <map>
 
+#include "Fact.h"
 #include "preproc/JsonParser.h"
 
 #define INCREF_STR "_Py_INCREF"
@@ -32,7 +34,7 @@ namespace {
         /**
          * @brief describe API that returns special obj
          */
-        struct srcAPI{
+        struct srcAPI {
             std::string fun_name;
             /// more info goes here
             // consider return type ???
@@ -61,6 +63,11 @@ namespace {
         std::set<srcAPI> retWeakAPI;
         std::set<sinkAPI> argBorrowAPI;
         std::set<sinkAPI> argStealAPI;
+
+        /// analysis runtime information
+        std::map<BasicBlock *, RCFact::Fact> inFacts;
+        std::map<BasicBlock *, RCFact::Fact> outFacts;
+
         /**
          * @brief initialize data structures and prepare arguments
          */

@@ -12765,7 +12765,7 @@ namespace detail
 @brief an iterator value
 
 @note This structure could easily be a union, but MSVC currently does not allow
-unions members with complex constructors, see https://github.com/nlohmann/json/pull/105.
+unions members with complex constructors, see https://github.com/nlohmann/json/remove/105.
 */
 template<typename BasicJsonType> struct internal_iterator
 {
@@ -22475,7 +22475,7 @@ class basic_json // NOLINT(cppcoreguidelines-special-member-functions,hicpp-spec
 
     /// Helper for insertion of an iterator
     /// @note: This uses std::distance to support GCC 4.8,
-    ///        see https://github.com/nlohmann/json/pull/1257
+    ///        see https://github.com/nlohmann/json/remove/1257
     template<typename... Args>
     iterator insert_iterator(const_iterator pos, Args&& ... args)
     {
