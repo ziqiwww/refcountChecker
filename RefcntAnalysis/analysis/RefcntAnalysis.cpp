@@ -48,7 +48,9 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
 
 void RefcntPass::intraAnalysis(Function *cur_func) {
     // TODO: do interprocedure analysis for cur func
+#ifdef DEBUG
     printCFG(cur_func);
+#endif
     // mainly focus on
     if (cur_func->empty())
         return;
@@ -72,13 +74,16 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                 case Instruction::Call: {
                     auto *call = dyn_cast<CallInst>(&inst);
                     llvm::Function *calledFunction = call->getCalledFunction();
+#ifdef DEBUG
                     llvm::Value *receiverValue = call->getArgOperand(0);
                     std::string receiverName = receiverValue->getName().str();
                     auto name = calledFunction->getName();
-#ifdef DEBUG
                     outs() << raw_fd_ostream::YELLOW
                            << "receiver: " << receiverValue << " call method " << name << "\n"
                            << raw_fd_ostream::RESET;
+                    for (Argument &arg: calledFunction->args()) {
+                        outs() << "argument: " << arg.getName().data() << '\n';
+                    }
 #endif
                     // TODO: discuss how to report bugs found below
                     if (name == INCREF_STR) {

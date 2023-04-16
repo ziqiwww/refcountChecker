@@ -23,65 +23,66 @@ target triple = "arm64-apple-macosx13.0.0"
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
 define ptr @PyInit_spam() #0 {
-  %1 = alloca ptr, align 8
-  %2 = alloca ptr, align 8
-  %3 = alloca ptr, align 8
-  %4 = call ptr @PyModule_Create2(ptr noundef @spammodule, i32 noundef 1013)
-  store ptr %4, ptr %2, align 8
-  %5 = load ptr, ptr %2, align 8
-  %6 = icmp eq ptr %5, null
-  br i1 %6, label %7, label %8
+entry:
+  %retval = alloca ptr, align 8
+  %module = alloca ptr, align 8
+  %_py_tmp = alloca ptr, align 8
+  %call = call ptr @PyModule_Create2(ptr noundef @spammodule, i32 noundef 1013)
+  store ptr %call, ptr %module, align 8
+  %0 = load ptr, ptr %module, align 8
+  %cmp = icmp eq ptr %0, null
+  br i1 %cmp, label %if.then, label %if.end
 
-7:                                                ; preds = %0
-  store ptr null, ptr %1, align 8
-  br label %28
+if.then:                                          ; preds = %entry
+  store ptr null, ptr %retval, align 8
+  br label %return
 
-8:                                                ; preds = %0
-  %9 = call ptr @PyErr_NewException(ptr noundef @.str, ptr noundef null, ptr noundef null)
-  store ptr %9, ptr @Spam_Error, align 8
-  %10 = load ptr, ptr @Spam_Error, align 8
-  call void @_Py_XINCREF(ptr noundef %10)
-  %11 = load ptr, ptr %2, align 8
-  %12 = load ptr, ptr @Spam_Error, align 8
-  %13 = call i32 @PyModule_AddObject(ptr noundef %11, ptr noundef @.str.1, ptr noundef %12)
-  %14 = icmp slt i32 %13, 0
-  br i1 %14, label %15, label %26
+if.end:                                           ; preds = %entry
+  %call1 = call ptr @PyErr_NewException(ptr noundef @.str, ptr noundef null, ptr noundef null)
+  store ptr %call1, ptr @Spam_Error, align 8
+  %1 = load ptr, ptr @Spam_Error, align 8
+  call void @_Py_XINCREF(ptr noundef %1)
+  %2 = load ptr, ptr %module, align 8
+  %3 = load ptr, ptr @Spam_Error, align 8
+  %call2 = call i32 @PyModule_AddObject(ptr noundef %2, ptr noundef @.str.1, ptr noundef %3)
+  %cmp3 = icmp slt i32 %call2, 0
+  br i1 %cmp3, label %if.then4, label %if.end8
 
-15:                                               ; preds = %8
-  %16 = load ptr, ptr @Spam_Error, align 8
-  call void @_Py_XDECREF(ptr noundef %16)
-  br label %17
+if.then4:                                         ; preds = %if.end
+  %4 = load ptr, ptr @Spam_Error, align 8
+  call void @_Py_XDECREF(ptr noundef %4)
+  br label %do.body
 
-17:                                               ; preds = %15
-  %18 = load ptr, ptr @Spam_Error, align 8
-  store ptr %18, ptr %3, align 8
-  %19 = load ptr, ptr %3, align 8
-  %20 = icmp ne ptr %19, null
-  br i1 %20, label %21, label %23
+do.body:                                          ; preds = %if.then4
+  %5 = load ptr, ptr @Spam_Error, align 8
+  store ptr %5, ptr %_py_tmp, align 8
+  %6 = load ptr, ptr %_py_tmp, align 8
+  %cmp5 = icmp ne ptr %6, null
+  br i1 %cmp5, label %if.then6, label %if.end7
 
-21:                                               ; preds = %17
+if.then6:                                         ; preds = %do.body
   store ptr null, ptr @Spam_Error, align 8
-  %22 = load ptr, ptr %3, align 8
-  call void @_Py_DECREF(ptr noundef %22)
-  br label %23
+  %7 = load ptr, ptr %_py_tmp, align 8
+  call void @_Py_DECREF(ptr noundef %7)
+  br label %if.end7
 
-23:                                               ; preds = %21, %17
-  br label %24
+if.end7:                                          ; preds = %if.then6, %do.body
+  br label %do.end
 
-24:                                               ; preds = %23
-  %25 = load ptr, ptr %2, align 8
-  call void @_Py_DECREF(ptr noundef %25)
-  store ptr null, ptr %1, align 8
-  br label %28
+do.end:                                           ; preds = %if.end7
+  %8 = load ptr, ptr %module, align 8
+  call void @_Py_DECREF(ptr noundef %8)
+  store ptr null, ptr %retval, align 8
+  br label %return
 
-26:                                               ; preds = %8
-  %27 = load ptr, ptr %2, align 8
-  store ptr %27, ptr %1, align 8
-  br label %28
+if.end8:                                          ; preds = %if.end
+  %9 = load ptr, ptr %module, align 8
+  store ptr %9, ptr %retval, align 8
+  br label %return
 
-28:                                               ; preds = %26, %24, %7
-  %29 = load ptr, ptr %1, align 8
-  ret ptr %29
+return:                                           ; preds = %if.end8, %do.end, %if.then
+  %10 = load ptr, ptr %retval, align 8
+  ret ptr %10
 }
 
 declare ptr @PyModule_Create2(ptr noundef, i32 noundef) #1
@@ -89,109 +90,113 @@ declare ptr @PyModule_Create2(ptr noundef, i32 noundef) #1
 declare ptr @PyErr_NewException(ptr noundef, ptr noundef, ptr noundef) #1
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
-define internal void @_Py_XINCREF(ptr noundef %0) #0 {
-  %2 = alloca ptr, align 8
-  store ptr %0, ptr %2, align 8
-  %3 = load ptr, ptr %2, align 8
-  %4 = icmp ne ptr %3, null
-  br i1 %4, label %5, label %7
+define internal void @_Py_XINCREF(ptr noundef %op) #0 {
+entry:
+  %op.addr = alloca ptr, align 8
+  store ptr %op, ptr %op.addr, align 8
+  %0 = load ptr, ptr %op.addr, align 8
+  %cmp = icmp ne ptr %0, null
+  br i1 %cmp, label %if.then, label %if.end
 
-5:                                                ; preds = %1
-  %6 = load ptr, ptr %2, align 8
-  call void @_Py_INCREF(ptr noundef %6)
-  br label %7
+if.then:                                          ; preds = %entry
+  %1 = load ptr, ptr %op.addr, align 8
+  call void @_Py_INCREF(ptr noundef %1)
+  br label %if.end
 
-7:                                                ; preds = %5, %1
+if.end:                                           ; preds = %if.then, %entry
   ret void
 }
 
 declare i32 @PyModule_AddObject(ptr noundef, ptr noundef, ptr noundef) #1
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
-define internal void @_Py_XDECREF(ptr noundef %0) #0 {
-  %2 = alloca ptr, align 8
-  store ptr %0, ptr %2, align 8
-  %3 = load ptr, ptr %2, align 8
-  %4 = icmp ne ptr %3, null
-  br i1 %4, label %5, label %7
+define internal void @_Py_XDECREF(ptr noundef %op) #0 {
+entry:
+  %op.addr = alloca ptr, align 8
+  store ptr %op, ptr %op.addr, align 8
+  %0 = load ptr, ptr %op.addr, align 8
+  %cmp = icmp ne ptr %0, null
+  br i1 %cmp, label %if.then, label %if.end
 
-5:                                                ; preds = %1
-  %6 = load ptr, ptr %2, align 8
-  call void @_Py_DECREF(ptr noundef %6)
-  br label %7
+if.then:                                          ; preds = %entry
+  %1 = load ptr, ptr %op.addr, align 8
+  call void @_Py_DECREF(ptr noundef %1)
+  br label %if.end
 
-7:                                                ; preds = %5, %1
+if.end:                                           ; preds = %if.then, %entry
   ret void
 }
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
-define internal void @_Py_DECREF(ptr noundef %0) #0 {
-  %2 = alloca ptr, align 8
-  store ptr %0, ptr %2, align 8
-  %3 = load ptr, ptr %2, align 8
-  %4 = getelementptr inbounds %struct._object, ptr %3, i32 0, i32 0
-  %5 = load i64, ptr %4, align 8
-  %6 = add nsw i64 %5, -1
-  store i64 %6, ptr %4, align 8
-  %7 = icmp ne i64 %6, 0
-  br i1 %7, label %8, label %9
+define internal void @_Py_DECREF(ptr noundef %op) #0 {
+entry:
+  %op.addr = alloca ptr, align 8
+  store ptr %op, ptr %op.addr, align 8
+  %0 = load ptr, ptr %op.addr, align 8
+  %ob_refcnt = getelementptr inbounds %struct._object, ptr %0, i32 0, i32 0
+  %1 = load i64, ptr %ob_refcnt, align 8
+  %dec = add nsw i64 %1, -1
+  store i64 %dec, ptr %ob_refcnt, align 8
+  %cmp = icmp ne i64 %dec, 0
+  br i1 %cmp, label %if.then, label %if.else
 
-8:                                                ; preds = %1
-  br label %11
+if.then:                                          ; preds = %entry
+  br label %if.end
 
-9:                                                ; preds = %1
-  %10 = load ptr, ptr %2, align 8
-  call void @_Py_Dealloc(ptr noundef %10)
-  br label %11
+if.else:                                          ; preds = %entry
+  %2 = load ptr, ptr %op.addr, align 8
+  call void @_Py_Dealloc(ptr noundef %2)
+  br label %if.end
 
-11:                                               ; preds = %9, %8
+if.end:                                           ; preds = %if.else, %if.then
   ret void
 }
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
-define internal ptr @spam_system(ptr noundef %0, ptr noundef %1) #0 {
-  %3 = alloca ptr, align 8
-  %4 = alloca ptr, align 8
-  %5 = alloca ptr, align 8
-  %6 = alloca ptr, align 8
-  %7 = alloca i32, align 4
-  store ptr %0, ptr %4, align 8
-  store ptr %1, ptr %5, align 8
-  %8 = load ptr, ptr %5, align 8
-  %9 = call i32 (ptr, ptr, ...) @_PyArg_ParseTuple_SizeT(ptr noundef %8, ptr noundef @.str.6, ptr noundef %6)
-  %10 = icmp ne i32 %9, 0
-  br i1 %10, label %12, label %11
+define internal ptr @spam_system(ptr noundef %self, ptr noundef %args) #0 {
+entry:
+  %retval = alloca ptr, align 8
+  %self.addr = alloca ptr, align 8
+  %args.addr = alloca ptr, align 8
+  %command = alloca ptr, align 8
+  %sts = alloca i32, align 4
+  store ptr %self, ptr %self.addr, align 8
+  store ptr %args, ptr %args.addr, align 8
+  %0 = load ptr, ptr %args.addr, align 8
+  %call = call i32 (ptr, ptr, ...) @_PyArg_ParseTuple_SizeT(ptr noundef %0, ptr noundef @.str.6, ptr noundef %command)
+  %tobool = icmp ne i32 %call, 0
+  br i1 %tobool, label %if.end, label %if.then
 
-11:                                               ; preds = %2
-  store ptr null, ptr %3, align 8
-  br label %25
+if.then:                                          ; preds = %entry
+  store ptr null, ptr %retval, align 8
+  br label %return
 
-12:                                               ; preds = %2
-  %13 = load ptr, ptr %6, align 8
-  %14 = call i32 (ptr, ...) @printf(ptr noundef @.str.7, ptr noundef %13)
-  %15 = load ptr, ptr %6, align 8
-  %16 = call i32 @"\01_system"(ptr noundef %15)
-  store i32 %16, ptr %7, align 4
-  %17 = load i32, ptr %7, align 4
-  %18 = icmp slt i32 %17, 0
-  br i1 %18, label %19, label %21
+if.end:                                           ; preds = %entry
+  %1 = load ptr, ptr %command, align 8
+  %call1 = call i32 (ptr, ...) @printf(ptr noundef @.str.7, ptr noundef %1)
+  %2 = load ptr, ptr %command, align 8
+  %call2 = call i32 @"\01_system"(ptr noundef %2)
+  store i32 %call2, ptr %sts, align 4
+  %3 = load i32, ptr %sts, align 4
+  %cmp = icmp slt i32 %3, 0
+  br i1 %cmp, label %if.then3, label %if.end4
 
-19:                                               ; preds = %12
-  %20 = load ptr, ptr @Spam_Error, align 8
-  call void @PyErr_SetString(ptr noundef %20, ptr noundef @.str.8)
-  store ptr null, ptr %3, align 8
-  br label %25
+if.then3:                                         ; preds = %if.end
+  %4 = load ptr, ptr @Spam_Error, align 8
+  call void @PyErr_SetString(ptr noundef %4, ptr noundef @.str.8)
+  store ptr null, ptr %retval, align 8
+  br label %return
 
-21:                                               ; preds = %12
-  %22 = load i32, ptr %7, align 4
-  %23 = sext i32 %22 to i64
-  %24 = call ptr @PyLong_FromLong(i64 noundef %23)
-  store ptr %24, ptr %3, align 8
-  br label %25
+if.end4:                                          ; preds = %if.end
+  %5 = load i32, ptr %sts, align 4
+  %conv = sext i32 %5 to i64
+  %call5 = call ptr @PyLong_FromLong(i64 noundef %conv)
+  store ptr %call5, ptr %retval, align 8
+  br label %return
 
-25:                                               ; preds = %21, %19, %11
-  %26 = load ptr, ptr %3, align 8
-  ret ptr %26
+return:                                           ; preds = %if.end4, %if.then3, %if.then
+  %6 = load ptr, ptr %retval, align 8
+  ret ptr %6
 }
 
 declare i32 @_PyArg_ParseTuple_SizeT(ptr noundef, ptr noundef, ...) #1
@@ -205,14 +210,15 @@ declare void @PyErr_SetString(ptr noundef, ptr noundef) #1
 declare ptr @PyLong_FromLong(i64 noundef) #1
 
 ; Function Attrs: noinline nounwind optnone ssp uwtable
-define internal void @_Py_INCREF(ptr noundef %0) #0 {
-  %2 = alloca ptr, align 8
-  store ptr %0, ptr %2, align 8
-  %3 = load ptr, ptr %2, align 8
-  %4 = getelementptr inbounds %struct._object, ptr %3, i32 0, i32 0
-  %5 = load i64, ptr %4, align 8
-  %6 = add nsw i64 %5, 1
-  store i64 %6, ptr %4, align 8
+define internal void @_Py_INCREF(ptr noundef %op) #0 {
+entry:
+  %op.addr = alloca ptr, align 8
+  store ptr %op, ptr %op.addr, align 8
+  %0 = load ptr, ptr %op.addr, align 8
+  %ob_refcnt = getelementptr inbounds %struct._object, ptr %0, i32 0, i32 0
+  %1 = load i64, ptr %ob_refcnt, align 8
+  %inc = add nsw i64 %1, 1
+  store i64 %inc, ptr %ob_refcnt, align 8
   ret void
 }
 

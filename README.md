@@ -37,7 +37,7 @@ opt -load ./target/lib/libRefcntAnalysis.so -refcnt ./test/spammodule.ll -enable
 在 `./test`下有一个spammodule.c等文件，简单包含了一些与引用计数有关的API，构建IR指令为：
 
 ```shell
-clang -emit-llvm -S ./test/spammodule.c -I /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Headers -o ./test/spammodule.ll
+ clang -emit-llvm -S -fno-discard-value-names ./test/spammodule.c -I /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Headers -o ./test/spammodule.ll
 ```
 
 注意把 `Python.h`的路径链接进来。
