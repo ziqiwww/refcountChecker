@@ -17,7 +17,7 @@
 #include <set>
 #include <vector>
 #include <map>
-
+#include <list>
 #include "Fact.h"
 #include "preproc/JsonParser.h"
 
@@ -64,9 +64,10 @@ namespace {
         std::set<sinkAPI> argBorrowAPI;
         std::set<sinkAPI> argStealAPI;
 
-        /// analysis runtime information
+        /// analysis runtime information for intra analysis
         std::map<BasicBlock *, RCFact::Fact> inFacts;
         std::map<BasicBlock *, RCFact::Fact> outFacts;
+        std::list<RCFact::Result> error_list;
 
         /**
          * @brief initialize data structures and prepare arguments
@@ -107,6 +108,8 @@ namespace {
         bool runOnModule(Module &M);
 
         void refcntAnalysis(Function *fun_entry);
+
+        RCFact::Fact getResult();
     };
 }
 

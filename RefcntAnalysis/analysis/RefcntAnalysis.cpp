@@ -161,6 +161,10 @@ bool RefcntPass::runOnModule(Module &M) {
     return false;
 }
 
+RCFact::Fact RefcntPass::getResult() {
+
+}
+
 char RefcntPass::ID = 0;
 
 static RegisterPass<RefcntPass> X("refcnt", "refcount Analysis",

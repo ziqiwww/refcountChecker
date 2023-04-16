@@ -17,6 +17,26 @@
 
 namespace RCFact {
 
+    enum RCError {
+
+        MEM_LEAK = 1, // memory leak error, delta refcount > 0
+        DUP_DEC       // duplicate decrease, delta refcount < 0
+    };
+
+    class Result {
+    private:
+        llvm::Function *func;
+        llvm::Value *value;
+        int delta;
+
+    public:
+        explicit Result(llvm::Function *f = nullptr, llvm::Value *v = nullptr, int d = 0) : func(f), value(v),
+                                                                                            delta(d) {}
+
+        [[nodiscard]] RCError getError() const { return delta > 0 ? MEM_LEAK : DUP_DEC; }
+
+    };
+
     class Fact {
     private:
         std::map<llvm::Value *, int> cntMap;
