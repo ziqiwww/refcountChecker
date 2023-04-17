@@ -45,7 +45,7 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
 {
   	// 配置RCTool
     "ToolConfig": {
-      	// 指定clang路径
+      	// 指定clang路径，如果缺省会检测系统clang路径
         "clang": "/opt/homebrew/opt/llvm/bin/clang",
       	// 指定要分析的module.c文件
         "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
@@ -68,4 +68,6 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
 
 针对不同语句给出引用计数增减情况以及数据流传播的定义。
 
-受常量传播和污点分析的启发，前者可以用于跟踪引用计数变化，在交汇处可以检测出不一致（参考矛盾路径对那篇文章），在常量传播过程中把污点数据加入考量，在所有sink的函数处检查该函数的API类型，并更新计数或报告bug
+受常量传播和污点分析的启发，前者可以用于跟踪引用计数变化，在交汇处可以检测出不一致（参考矛盾路径对那篇文章），在常量传播过程中把污点数据加入考量，在所有sink的函数处检查该函数的API类型，并更新计数或报告bug.
+
+完成结果保存路径的设置

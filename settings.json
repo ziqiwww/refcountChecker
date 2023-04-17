@@ -1,6 +1,6 @@
 {
     "ToolConfig": {
-        "clang": "/opt/homebrew/opt/llvm/bin/clang",
+        "clang": "clang",
         "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
         "args": [
             "-I",

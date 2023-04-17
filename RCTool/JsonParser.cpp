@@ -19,9 +19,8 @@ bool JsonParser::parse(const std::string &path) {
              * Tool config
              =============================================*/
             auto tool_conf = config.at("ToolConfig");
-            auto clang = tool_conf.at("clang");
-            std::string clang_str = (clang == nullptr) ? std::string() : (std::string) clang;
-            params.setClang(clang_str);
+            std::string clang = tool_conf.at("clang");
+            params.setClang(clang);
             auto module = tool_conf.at("module");
             if (module == nullptr) {
                 std::cerr << "module path can not be empty, add \"module\" entry to settings\n";
