@@ -2,22 +2,10 @@
 
 ## 项目组织
 
-```
-.
-├── CmakeLists.txt
-├── LICENSE
-├── README.md
-├── RefcntAnalysis
-│   ├── CmakeLists.txt	添加source，include等
-│   ├── RefcntAnalysis.cpp
-│   └── include		所有头文件
-│       ├── RefcntPass.h
-│       └── config.h
-├── externals		使用到的外部库
-│   └── nlohmann
-│       └── json.hpp
-└── settings.json	项目配置文件。
-```
+RCTool是后端入口，用于module的载入和IR的生成，依次调用`clang -emit-llvm`和`opt`
+指令，因此项目构建和IR生成两节中的相关指令可以不用管，直接运行target/bin下的tool即可。注意如果运行tool需要确保unix环境，windows不能保证能够成功运行指令。
+
+RefcntAnalysis是llvm pass的分析逻辑和数据结构。
 
 ## 项目构建
 
@@ -51,7 +39,30 @@ ToolConfig用于配制一些基本信息，比如使用的clang路径，生成.l
 AnalyzeConfig用于配制数据流分析的基本信息，包括
 
 * 入口函数 "entryFunction"
-* 分析模式 "analysesMode"：过程间inter，过程内intra，默认过程内。
+* 分析模式 "analysesMode"：。
+
+```json
+{
+  	// 配置RCTool
+    "ToolConfig": {
+      	// 指定clang路径
+        "clang": "/opt/homebrew/opt/llvm/bin/clang",
+      	// 指定要分析的module.c文件
+        "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
+        "args": [
+            "-I",
+            "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Headers"
+        ]
+      	// 配置完成后将运行 IR生成 一节的指令
+    },
+    "AnalysisConfig": {
+      	// 分析模式： 过程间inter，过程内intra，默认过程内
+        "analysesMode": "intra",
+      	// 入口函数
+        "entryFunction": "PyInit_spam"
+    }
+}
+```
 
 ## 下一阶段目标
 
