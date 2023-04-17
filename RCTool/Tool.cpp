@@ -3,8 +3,7 @@
 //
 
 #include "Tool.h"
-
-#define PROJECT_ROOT (std::string("../../"))
+#include "config.h"
 
 bool Tool::setParam() {
     JsonParser parser;
@@ -27,9 +26,11 @@ int Tool::run() {
     ircmd.append("-o " + ll_path);
     int ir_ret = system(ircmd.c_str());
     if (ir_ret != 0)return 1;
-    // analyze begin
     std::string opt_cmd("opt -load ../lib/libRefcntAnalysis.so -refcnt ");
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
+    //change /dev/null to print out modified ir:
+    // https://stackoverflow.com/questions/29758987/using-llvm-opt-with-built-in-passes
+    // analysis begins
     return system(opt_cmd.c_str());
 }

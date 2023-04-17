@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
-#include "common/config.h"
+#include "config.h"
 #include "printer/CFGDrawer.hpp"
 
 void print_one_entry(Instruction *inst, int idx) {
