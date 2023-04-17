@@ -1,5 +1,5 @@
-; ModuleID = './test/spammodule.c'
-source_filename = "./test/spammodule.c"
+; ModuleID = '/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c'
+source_filename = "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c"
 target datalayout = "e-m:o-i64:64-i128:128-n32:64-S128"
 target triple = "arm64-apple-macosx13.0.0"
 

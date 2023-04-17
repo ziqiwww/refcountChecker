@@ -8,9 +8,6 @@
 #include <string>
 
 namespace Parser {
-    struct TooParam{
-
-    };
     struct AnaParam{
         /// basic properties
         std::string analysesMode = "inter";
@@ -18,7 +15,6 @@ namespace Parser {
     };
     class JsonParser {
     public:
-        /// tool parameters
 
         /// analyze parameters
         AnaParam anaParams;

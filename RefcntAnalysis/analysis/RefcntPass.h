@@ -5,7 +5,7 @@
 #ifndef REFCNTPASS_H
 #define REFCNTPASS_H
 
-#include <llvm/IR/BasicBlock.h>
+#include <llvm/IR/CFG.h>
 #include <llvm/IR/Function.h>
 #include <llvm/IR/Instruction.h>
 #include <llvm/IR/Instructions.h>
@@ -85,6 +85,16 @@ namespace {
          * @param cur_func
          */
         void interAnalysis(Function *cur_func);
+
+        /**
+         * change refcount information, if out fact changes, return true
+         */
+        bool transferNode(BasicBlock *bb);
+
+        /**
+         * may be used for intra analysis, in forward analysis, change dst's in according to src's out
+         */
+        bool transferEdge(BasicBlock *src, BasicBlock *dst);
 
         /**
          * @brief do more bug report before leaving a function,

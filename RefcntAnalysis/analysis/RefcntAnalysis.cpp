@@ -1,4 +1,3 @@
-#include <llvm/IR/CFG.h>
 #include <llvm/Support/Debug.h>
 #include <llvm/Support/GraphWriter.h>
 #include <unistd.h>
@@ -18,7 +17,7 @@ void print_one_entry(Instruction *inst, int idx) {
 void RefcntPass::init_pass() {
     // TODO: initialize pass data structures and use json to configure
     Parser::JsonParser parser;
-    if (parser.parse("./settings.json")) {
+    if (parser.parse("../../settings.json")) {
         outs() << "use settings.json to configure\n";
     } else {
         outs() << "use default settings";
@@ -31,6 +30,14 @@ void RefcntPass::init_pass() {
            << "initialization done\n"
            << raw_fd_ostream::RESET;
 #endif
+}
+
+bool RefcntPass::transferNode(BasicBlock *bb) {
+    return false;
+}
+
+bool RefcntPass::transferEdge(BasicBlock *src, BasicBlock *dst) {
+    return false;
 }
 
 void RefcntPass::refcntAnalysis(Function *fun_entry) {
@@ -162,10 +169,11 @@ bool RefcntPass::runOnModule(Module &M) {
 }
 
 RCFact::Fact RefcntPass::getResult() {
-
+    return {};
 }
 
 char RefcntPass::ID = 0;
+
 
 static RegisterPass<RefcntPass> X("refcnt", "refcount Analysis",
                                   false, false);

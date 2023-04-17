@@ -1,0 +1,1 @@
+add_executable(tool main.cpp Tool.cpp JsonParser.cpp)

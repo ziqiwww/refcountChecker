@@ -9,6 +9,7 @@
 #include "llvm/IR/Function.h"
 #include "llvm/Support/GraphWriter.h"
 #include "llvm/Support/FileSystem.h"
+#include "../common/config.h"
 
 namespace llvm {
     template<>
@@ -37,7 +38,8 @@ void printCFG(llvm::Function *function) {
     std::string cfgFilename = functionName + ".dot";
     std::error_code error;
 
-    llvm::raw_fd_ostream outputStream("./result/img/cfg/" + cfgFilename, error, llvm::sys::fs::OpenFlags::OF_Text);
+    llvm::raw_fd_ostream outputStream(PROJECT_ROOT + "result/img/cfg/" + cfgFilename, error,
+                                      llvm::sys::fs::OpenFlags::OF_Text);
 
     if (!error) {
         llvm::DOTGraphTraits<llvm::Function *> graphTraits;

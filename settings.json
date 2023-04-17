@@ -1,10 +1,14 @@
 {
     "ToolConfig": {
-
+        "clang": "/opt/homebrew/opt/llvm/bin/clang",
+        "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
+        "args": [
+            "-I",
+            "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Headers"
+        ]
     },
-    "AnalyzeConfig": {
-        "analysesMode":"intra",
-        "targetModulePath": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
+    "AnalysisConfig": {
+        "analysesMode": "intra",
         "entryFunction": "PyInit_spam"
     }
 }
