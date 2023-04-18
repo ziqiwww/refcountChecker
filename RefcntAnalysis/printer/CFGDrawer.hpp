@@ -11,42 +11,15 @@
 #include "llvm/Support/FileSystem.h"
 #include "../common/config.h"
 
-namespace llvm {
-    template<>
-    struct DOTGraphTraits<Function *> : public DefaultDOTGraphTraits {
-        DOTGraphTraits(bool isSimple = false) : DefaultDOTGraphTraits(isSimple) {}
-
-        static std::string getGraphName(Function *function) {
-            return "CFG for " + function->getName().str();
-        }
-
-        std::string getNodeLabel(BasicBlock *basicBlock, Function *function) {
-            std::string label = basicBlock->getName().str() + "\\n";
-            llvm::Instruction *firstInstruction = &basicBlock->front();
-            llvm::Instruction *lastInstruction = &basicBlock->back();
-
-            label += "1: " + std::to_string(firstInstruction->getOpcode()) + "\\n";
-            label += "n: " + std::to_string(lastInstruction->getOpcode());
-
-            return label;
-        }
-    };
-}
 
 void printCFG(llvm::Function *function) {
     std::string functionName = function->getName().str();
     std::string cfgFilename = functionName + ".dot";
     std::error_code error;
-
     llvm::raw_fd_ostream outputStream(PROJECT_ROOT + "result/img/cfg/" + cfgFilename, error,
                                       llvm::sys::fs::OpenFlags::OF_Text);
-
-    if (!error) {
-        llvm::DOTGraphTraits<llvm::Function *> graphTraits;
-        llvm::WriteGraph(outputStream, function, false, functionName);
-    } else {
-        llvm::errs() << "Error: could not open file for writing CFG: " << cfgFilename << '\n';
-    }
+    GraphWriter<Function *> writer(outputStream, function, true);
+    writer.writeGraph();
 }
 
 

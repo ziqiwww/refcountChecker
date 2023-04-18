@@ -1,5 +1,6 @@
 #include <llvm/Support/Debug.h>
 #include <llvm/Support/GraphWriter.h>
+#include <llvm/Analysis/AliasAnalysis.h>
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
@@ -44,9 +45,12 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
     // start from the entry function,
     //
     // TODO: do additional set up before traversing entry
-
-    // preparation finished
     if (params.analysesMode == "inter") {
+        for (BasicBlock &bb: fun_entry->getBasicBlockList()) {
+            inFacts.insert({&bb, RCFact::Fact()});
+            outFacts.insert({&bb, RCFact::Fact()});
+        }
+        // start analysis
         interAnalysis(fun_entry);
     } else {
         intraAnalysis(fun_entry);
@@ -64,16 +68,12 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
     // prepare to traverse CFG
     using std::deque, std::set;
     deque<BasicBlock *> workList;
-    set<BasicBlock *> visited;
     // we do forward analysis
     workList.emplace_back(&cur_func->getEntryBlock());
     while (!workList.empty()) {
         // currently analyzed block
         BasicBlock *block = workList.front();
         workList.pop_front();
-        if (visited.find(block) != visited.end()) continue;
-        visited.insert(block);
-
         for (const Instruction &inst: *block) {
             unsigned op = inst.getOpcode();
             switch (op) {
@@ -82,11 +82,9 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                     auto *call = dyn_cast<CallInst>(&inst);
                     llvm::Function *calledFunction = call->getCalledFunction();
 #ifdef DEBUG
-                    llvm::Value *receiverValue = call->getArgOperand(0);
-                    std::string receiverName = receiverValue->getName().str();
                     auto name = calledFunction->getName();
                     outs() << raw_fd_ostream::YELLOW
-                           << "receiver: " << receiverValue << " call method " << name << "\n"
+                           << " call method " << name << "\n"
                            << raw_fd_ostream::RESET;
                     for (Argument &arg: calledFunction->args()) {
                         outs() << "argument: " << arg.getName().data() << '\n';
@@ -104,6 +102,9 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                     } else {
                         // TODO: check if it's a special API, aka in retStrongAPI/retWeakAPI/argBorrowAPI/argStealAPI
                         // suggest using another function to do so which processes the api's behavior
+                        if (name == "PyErr_NewException") {
+
+                        }
                     }
                     break;
                 }
@@ -111,7 +112,7 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                     break;
             }
         }
-
+        if (inFacts[block] == outFacts[block])continue;
         for (BasicBlock *succ: successors(block)) {
             if (/*some condition*/1) {
                 workList.emplace_back(succ);

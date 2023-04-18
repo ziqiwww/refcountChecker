@@ -27,7 +27,7 @@ bool Fact::factUnion(const Fact &f) {
     bool changed = false;
     for (const auto &pair: f.cntMap) {
         if (cntMap.find(pair.first) != cntMap.end()) {
-            if (cntMap.at(pair.first) != pair.second) {
+            if (cntMap.at(pair.first) != pair.second || pair.second == NAC) {
                 // a conflict occurs
                 cntMap[pair.first] = NAC;
                 changed = true;
@@ -57,4 +57,8 @@ Fact &Fact::operator=(const Fact &f) {
         cntMap = f.cntMap;
     }
     return *this;
+}
+
+bool Fact::operator==(const Fact &f) {
+    return cntMap == f.cntMap;
 }

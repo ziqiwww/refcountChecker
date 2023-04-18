@@ -24,8 +24,7 @@ int Tool::run() {
     ircmd.append(params.modulePath + ' ');
     std::string ll_path = params.modulePath + ".ll";
     ircmd.append("-o " + ll_path);
-    int ir_ret = system(ircmd.c_str());
-    if (ir_ret != 0)return 1;
+    if (system(ircmd.c_str()) != 0)return 1;
     std::string opt_cmd("opt -load ../lib/libRefcntAnalysis.so -refcnt ");
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");

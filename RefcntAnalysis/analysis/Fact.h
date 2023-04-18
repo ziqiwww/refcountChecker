@@ -76,6 +76,8 @@ namespace RCFact {
 
         Fact &operator=(const Fact &f);
 
+        bool operator==(const Fact &f);
+
     };
 
 }
