@@ -39,7 +39,7 @@ namespace RCFact {
 
     class Fact {
     private:
-        std::map<llvm::Value *, int> cntMap;
+        std::unordered_map<llvm::Value *, int> cntMap;
     public:
 
         Fact() = default;

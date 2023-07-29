@@ -65,8 +65,8 @@ namespace {
         std::set<sinkAPI> argStealAPI;
 
         /// analysis runtime information for intra analysis
-        std::map<BasicBlock *, RCFact::Fact> inFacts;
-        std::map<BasicBlock *, RCFact::Fact> outFacts;
+        std::unordered_map<BasicBlock *, RCFact::Fact> inFacts;
+        std::unordered_map<BasicBlock *, RCFact::Fact> outFacts;
         std::list<RCFact::Result> error_list;
 
         /**

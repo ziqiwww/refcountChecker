@@ -46,7 +46,7 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
     //
     // TODO: do additional set up before traversing entry
     if (params.analysesMode == "inter") {
-        for (BasicBlock &bb: fun_entry->getBasicBlockList()) {
+        for (BasicBlock &bb: *fun_entry) {
             inFacts.insert({&bb, RCFact::Fact()});
             outFacts.insert({&bb, RCFact::Fact()});
         }
