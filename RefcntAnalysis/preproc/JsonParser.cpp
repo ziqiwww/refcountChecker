@@ -5,7 +5,7 @@
 #include <filesystem>
 #include <llvm/Support/raw_ostream.h>
 #include "JsonParser.h"
-#include "nlohmann/json.hpp"
+
 
 bool Parser::JsonParser::parse(const std::string &path) {
     using namespace llvm;
@@ -23,16 +23,13 @@ bool Parser::JsonParser::parse(const std::string &path) {
             auto ana_conf = config.at("AnalysisConfig");
 
             /// mode is either inter or intra
-            auto mode = ana_conf.at("analysesMode");
-            if (mode == "inter" || mode == "intra")
-                anaParams.analysesMode = mode;
-            else
-                outs() << "mode setting is invalid, use interprocedual as default setting\n";
+            anaParams.analysesMode = getOrDefault<std::string>("mode", "intra", ana_conf);
 
-            /// set entry function in the module, main is the default;
-            auto entry = ana_conf.at("entryFunction");
-            if (entry != nullptr)
-                anaParams.entryFunction = entry;
+            /// set entry function in the module;
+            anaParams.entryFunction = getOrDefault<std::string>("entry", "", ana_conf);
+
+            /// set debug mode
+            anaParams.debug = getOrDefault<bool>("debug", false, ana_conf);
             /// parse done
             return true;
         } catch (const std::exception &e) {

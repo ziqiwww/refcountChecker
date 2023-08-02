@@ -25,7 +25,8 @@ int Tool::run() {
     std::string ll_path = params.modulePath + ".ll";
     ircmd.append("-o " + ll_path);
     if (system(ircmd.c_str()) != 0)return 1;
-    std::string opt_cmd("opt -load ../lib/libRefcntAnalysis.so -refcnt ");
+    std::string opt_cmd(
+            "opt -load ../lib/libRefcntAnalysis.so -refcnt --basic-aa -aa-eval -print-all-alias-modref-info ");
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:

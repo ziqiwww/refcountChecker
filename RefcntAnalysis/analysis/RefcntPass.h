@@ -13,6 +13,9 @@
 #include <llvm/IR/Use.h>
 #include <llvm/IR/Value.h>
 #include <llvm/Pass.h>
+#include <llvm/Analysis/AliasAnalysis.h>
+#include <llvm/Analysis/BasicAliasAnalysis.h>
+#include<llvm/Analysis/AliasSetTracker.h>
 #include <llvm/Support/raw_ostream.h>
 #include <set>
 #include <vector>
@@ -27,6 +30,10 @@
 #define XDECREF_STR "_Py_XDECREF"
 
 using namespace llvm;
+
+namespace llvm {
+    void initializeRefcntPassPass(PassRegistry &);
+}
 
 namespace {
     struct RefcntPass : public ModulePass {
@@ -115,7 +122,9 @@ namespace {
          * @param M
          * @return
          */
-        bool runOnModule(Module &M);
+        bool runOnModule(Module &M) override;
+
+        void getAnalysisUsage(llvm::AnalysisUsage &AU) const override;
 
         void refcntAnalysis(Function *fun_entry);
 

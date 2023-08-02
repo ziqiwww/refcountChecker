@@ -1,36 +1,47 @@
 #include <llvm/Support/Debug.h>
 #include <llvm/Support/GraphWriter.h>
-#include <llvm/Analysis/AliasAnalysis.h>
+#include <llvm/InitializePasses.h>
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
 #include "config.h"
 #include "printer/CFGDrawer.hpp"
 
-void print_one_entry(Instruction *inst, int idx) {
-    errs() << "\t\t\U0001F504 ";
-    errs() << "#" << idx;
-    errs() << " " << inst->getParent()->getParent()->getName();
-    inst->getParent();
-    errs() << " : " << *inst << "\n";
+// formated debug output helper
+#define DEBUG_PRINT_FORMAT(...) \
+    do { \
+        if (params.debug) { \
+            errs() << raw_fd_ostream::YELLOW \
+                   << format( __VA_ARGS__) \
+                   << raw_fd_ostream::RESET; \
+        } \
+    } while (0)
+
+#define DEBUG_PRINT_STR(str) \
+    do { \
+        if (params.debug) { \
+            errs() << raw_fd_ostream::YELLOW \
+                   << str \
+                   << raw_fd_ostream::RESET; \
+        } \
+    } while (0)
+
+
+void llvm::initializeRefcntPassPass(llvm::PassRegistry &Registry) {
+    initializeAAResultsWrapperPassPass(Registry);
 }
 
 void RefcntPass::init_pass() {
     // TODO: initialize pass data structures and use json to configure
     Parser::JsonParser parser;
     if (parser.parse("../../settings.json")) {
-        outs() << "use settings.json to configure\n";
+        DEBUG_PRINT_STR("<init_pass> use settings from settings.json\n");
     } else {
-        outs() << "use default settings";
+        DEBUG_PRINT_STR("<init_pass> use default settings\n");
     }
     params = parser.anaParams;
 
-#ifdef DEBUG
-
-    outs() << raw_fd_ostream::YELLOW
-           << "initialization done\n"
-           << raw_fd_ostream::RESET;
-#endif
+    DEBUG_PRINT_STR("<init_pass> initialization done\n");
 }
 
 bool RefcntPass::transferNode(BasicBlock *bb) {
@@ -45,11 +56,11 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
     // start from the entry function,
     //
     // TODO: do additional set up before traversing entry
+    for (BasicBlock &bb: *fun_entry) {
+        inFacts.insert({&bb, RCFact::Fact()});
+        outFacts.insert({&bb, RCFact::Fact()});
+    }
     if (params.analysesMode == "inter") {
-        for (BasicBlock &bb: *fun_entry) {
-            inFacts.insert({&bb, RCFact::Fact()});
-            outFacts.insert({&bb, RCFact::Fact()});
-        }
         // start analysis
         interAnalysis(fun_entry);
     } else {
@@ -58,16 +69,20 @@ void RefcntPass::refcntAnalysis(Function *fun_entry) {
 }
 
 void RefcntPass::intraAnalysis(Function *cur_func) {
-    // TODO: do interprocedure analysis for cur func
-#ifdef DEBUG
-    printCFG(cur_func);
-#endif
+    // get alias analysis result
+    auto &AA = getAnalysis<AAResultsWrapperPass>(*cur_func).getAAResults();
+    DEBUG_PRINT_STR("<intraAnalysis> intra analysis started\n");
+    DEBUG_PRINT_FORMAT("<intraAnalysis> function: %s\n", cur_func->getName().data());
+
+    if (params.debug)
+        printCFG(cur_func);
+
     // mainly focus on
     if (cur_func->empty())
         return;
     // prepare to traverse CFG
     using std::deque, std::set;
-    deque<BasicBlock *> workList;
+    deque < BasicBlock * > workList;
     // we do forward analysis
     workList.emplace_back(&cur_func->getEntryBlock());
     while (!workList.empty()) {
@@ -81,15 +96,10 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                 case Instruction::Call: {
                     auto *call = dyn_cast<CallInst>(&inst);
                     llvm::Function *calledFunction = call->getCalledFunction();
-#ifdef DEBUG
+
                     auto name = calledFunction->getName();
-                    outs() << raw_fd_ostream::YELLOW
-                           << " call method " << name << "\n"
-                           << raw_fd_ostream::RESET;
-                    for (Argument &arg: calledFunction->args()) {
-                        outs() << "argument: " << arg.getName().data() << '\n';
-                    }
-#endif
+                    DEBUG_PRINT_FORMAT("call: %s\n", name.data());
+
                     // TODO: discuss how to report bugs found below
                     if (name == INCREF_STR) {
 
@@ -108,13 +118,14 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                     }
                     break;
                 }
+
                 default:
                     break;
             }
         }
         if (inFacts[block] == outFacts[block])continue;
         for (BasicBlock *succ: successors(block)) {
-            if (/*some condition*/1) {
+            if (/*TODO: some condition*/1) {
                 workList.emplace_back(succ);
             }
         }
@@ -123,7 +134,7 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
 }
 
 void RefcntPass::interAnalysis(Function *cur_func) {
-    // TODO: do intraprocedure analysis for cur func, may call intraAnalysis
+    // TODO: do interprocedure analysis for cur func, may call intraAnalysis
 }
 
 void RefcntPass::CheckBeforeRet() {
@@ -132,35 +143,16 @@ void RefcntPass::CheckBeforeRet() {
 bool RefcntPass::runOnModule(Module &M) {
 
     init_pass();
-    Function *entry_func = nullptr;
-    Function *main_func = nullptr;
-    // looping through functions to find the main functions.
-    for (auto &f: M) {
-        auto f_name = f.getName();
-        if (!strcmp(f_name.data(), params.entryFunction.c_str())) {
-            entry_func = &f;
-            break;
-        } else if (strcmp(f_name.data(), "main") == 0) {
-            main_func = &f;
-        }
-    }
-    if (entry_func == nullptr) {
-        if (main_func != nullptr) {
-            outs() << "entry function is invalid, use default(main) as entry\n";
-            entry_func = main_func;
-        } else
-            errs() << "no entry or main function is determined\n";
-    }
+
+    // find entry function
+    Function *entry_func = M.getFunction(params.entryFunction);
     outs() << "====================analyses starts=======================\n";
     if (entry_func != nullptr) {
-// Ok. we have main function now.
-#ifdef DEBUG
-        // FIXME: abstract debug into one function
-        outs() << raw_fd_ostream::YELLOW
-               << "Analysis begin, analysis mode: " << params.analysesMode << ", entry function: "
-               << params.entryFunction << "\n"
-               << raw_fd_ostream::RESET;
-#endif
+        // Ok. we have entry function now.
+        DEBUG_PRINT_FORMAT("<runOnModule> analysis mode: %s\n", params.analysesMode.data());
+        DEBUG_PRINT_FORMAT("<runOnModule> entry function: %s\n", entry_func->getName().data());
+
+        // start analysis
         refcntAnalysis(entry_func);
     }
 
@@ -175,6 +167,12 @@ RCFact::Fact RefcntPass::getResult() {
 
 char RefcntPass::ID = 0;
 
+void RefcntPass::getAnalysisUsage(AnalysisUsage &AU) const {
+    Pass::getAnalysisUsage(AU);
+    AU.addRequired<AAResultsWrapperPass>();
+    AU.setPreservesAll();
+}
+
 
 static RegisterPass<RefcntPass> X("refcnt", "refcount Analysis",
-                                  false, false);
+                                  false, true);

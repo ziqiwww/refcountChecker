@@ -6,14 +6,28 @@
 #define REFCNTANALYSIS_JSONPARSER_H
 
 #include <string>
+#include "nlohmann/json.hpp"
 
 namespace Parser {
-    struct AnaParam{
+    struct AnaParam {
         /// basic properties
-        std::string analysesMode = "inter";
-        std::string entryFunction = "main";
+        std::string analysesMode = "intra";
+        std::string entryFunction;
+        bool debug = true;
     };
+
     class JsonParser {
+
+    private:
+        template<class T>
+        static T getOrDefault(const std::string &key, const T def, const nlohmann::json &j) {
+            if (j.contains(key)) {
+                return j.at(key);
+            } else {
+                return def;
+            }
+        }
+
     public:
 
         /// analyze parameters

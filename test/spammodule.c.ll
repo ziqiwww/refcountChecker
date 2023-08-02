@@ -21,7 +21,7 @@ target triple = "arm64-apple-macosx13.0.0"
 @.str.7 = private unnamed_addr constant [4 x i8] c"%s\0A\00", align 1
 @.str.8 = private unnamed_addr constant [22 x i8] c"System command failed\00", align 1
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define ptr @PyInit_spam() #0 {
 entry:
   %retval = alloca ptr, align 8
@@ -89,7 +89,7 @@ declare ptr @PyModule_Create2(ptr noundef, i32 noundef) #1
 
 declare ptr @PyErr_NewException(ptr noundef, ptr noundef, ptr noundef) #1
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define internal void @_Py_XINCREF(ptr noundef %op) #0 {
 entry:
   %op.addr = alloca ptr, align 8
@@ -109,7 +109,7 @@ if.end:                                           ; preds = %if.then, %entry
 
 declare i32 @PyModule_AddObject(ptr noundef, ptr noundef, ptr noundef) #1
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define internal void @_Py_XDECREF(ptr noundef %op) #0 {
 entry:
   %op.addr = alloca ptr, align 8
@@ -127,7 +127,7 @@ if.end:                                           ; preds = %if.then, %entry
   ret void
 }
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define internal void @_Py_DECREF(ptr noundef %op) #0 {
 entry:
   %op.addr = alloca ptr, align 8
@@ -152,7 +152,7 @@ if.end:                                           ; preds = %if.else, %if.then
   ret void
 }
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define internal ptr @spam_system(ptr noundef %self, ptr noundef %args) #0 {
 entry:
   %retval = alloca ptr, align 8
@@ -209,7 +209,7 @@ declare void @PyErr_SetString(ptr noundef, ptr noundef) #1
 
 declare ptr @PyLong_FromLong(i64 noundef) #1
 
-; Function Attrs: noinline nounwind optnone ssp uwtable
+; Function Attrs: noinline nounwind optnone ssp uwtable(sync)
 define internal void @_Py_INCREF(ptr noundef %op) #0 {
 entry:
   %op.addr = alloca ptr, align 8
@@ -224,14 +224,14 @@ entry:
 
 declare void @_Py_Dealloc(ptr noundef) #1
 
-attributes #0 = { noinline nounwind optnone ssp uwtable "frame-pointer"="non-leaf" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+crc,+crypto,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+lse,+neon,+ras,+rcpc,+rdm,+sha2,+sha3,+sm4,+v8.5a,+zcm,+zcz" }
-attributes #1 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+crc,+crypto,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+lse,+neon,+ras,+rcpc,+rdm,+sha2,+sha3,+sm4,+v8.5a,+zcm,+zcz" }
+attributes #0 = { noinline nounwind optnone ssp uwtable(sync) "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+crc,+crypto,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+lse,+neon,+ras,+rcpc,+rdm,+sha2,+sha3,+sm4,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8.5a,+v8a,+zcm,+zcz" }
+attributes #1 = { "frame-pointer"="non-leaf" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-cpu"="apple-m1" "target-features"="+aes,+crc,+crypto,+dotprod,+fp-armv8,+fp16fml,+fullfp16,+lse,+neon,+ras,+rcpc,+rdm,+sha2,+sha3,+sm4,+v8.1a,+v8.2a,+v8.3a,+v8.4a,+v8.5a,+v8a,+zcm,+zcz" }
 
 !llvm.module.flags = !{!0, !1, !2, !3}
 !llvm.ident = !{!4}
 
 !0 = !{i32 1, !"wchar_size", i32 4}
-!1 = !{i32 7, !"PIC Level", i32 2}
-!2 = !{i32 7, !"uwtable", i32 2}
+!1 = !{i32 8, !"PIC Level", i32 2}
+!2 = !{i32 7, !"uwtable", i32 1}
 !3 = !{i32 7, !"frame-pointer", i32 1}
-!4 = !{!"Homebrew clang version 15.0.7"}
+!4 = !{!"Homebrew clang version 16.0.6"}

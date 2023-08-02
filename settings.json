@@ -9,6 +9,7 @@
     },
     "AnalysisConfig": {
         "analysesMode": "intra",
-        "entryFunction": "PyInit_spam"
+        "entry": "PyInit_spam",
+        "debug": true
     }
 }
