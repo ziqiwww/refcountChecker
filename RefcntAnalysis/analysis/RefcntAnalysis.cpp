@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <deque>
 #include "RefcntPass.h"
-#include "AAHelper.h"
 #include "config.h"
 #include "printer/CFGDrawer.hpp"
 
@@ -45,7 +44,7 @@ void RefcntPass::init_pass() {
     DEBUG_PRINT_STR("<init_pass> initialization done\n");
 }
 
-bool RefcntPass::transferNode(BasicBlock *bb) {
+bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
     for (const Instruction &inst: *bb) {
         unsigned op = inst.getOpcode();
         switch (op) {
@@ -61,6 +60,13 @@ bool RefcntPass::transferNode(BasicBlock *bb) {
                 if (name == INCREF_STR) {
 
                 } else if (name == XINCREF_STR) {
+                    Value *memref = aaHelper.getMemRef(call->getArgOperand(0));
+                    if (memref == nullptr) {
+                        DEBUG_PRINT_STR("memref is nullptr\n");
+                        break;
+                    } else {
+                        DEBUG_PRINT_FORMAT("memref: %s\n", memref->getName().data());
+                    }
 
                 } else if (name == DECREF_STR) {
 
@@ -107,7 +113,9 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
     AAHelper aaHelper(AA, cur_func);
     DEBUG_PRINT_STR("<intraAnalysis> intra analysis started\n");
     DEBUG_PRINT_FORMAT("<intraAnalysis> function: %s\n", cur_func->getName().data());
-    DEBUG_PRINT_FORMAT("<intraAnalysis> AA sets:\n %s", aaHelper.AASetVerboseStr().data());
+    DEBUG_PRINT_FORMAT(
+            "<intraAnalysis>---------AA sets begin---------\n%s\n<intraAnalysis>---------AA sets end---------\n",
+            aaHelper.AASetVerboseStr().data());
 
     if (params.debug)
         printCFG(cur_func);
@@ -124,7 +132,7 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
         // currently analyzed block
         BasicBlock *block = workList.front();
         workList.pop_front();
-        if (!transferNode(block))continue;
+        if (!transferNode(block, aaHelper))continue;
         for (BasicBlock *succ: successors(block)) {
             workList.emplace_back(succ);
         }

@@ -8,13 +8,11 @@ AAHelper::AAHelper(llvm::AliasAnalysis &aa, llvm::Function *func) : AA(aa), func
     llvm::BatchAAResults batchAA(AA);
     llvm::AliasSetTracker tracker(batchAA);
     for (auto &bb: *func) {
-        for (auto &inst: bb) {
-            tracker.add(&inst);
-        }
+        tracker.add(bb);
     }
     int i = 0;
     for (auto &aaset: tracker) {
-        std::string repname = "AARepresentativeV__No__" + std::to_string(i++);
+        std::string repname = "AAMemRef__No__" + std::to_string(i++);
         llvm::Value *rep = new llvm::GlobalVariable(*func->getParent(), aaset.begin()->getValue()->getType(), false,
                                                     llvm::GlobalValue::ExternalLinkage, nullptr, repname);
         for (auto &v: aaset) {
@@ -23,10 +21,16 @@ AAHelper::AAHelper(llvm::AliasAnalysis &aa, llvm::Function *func) : AA(aa), func
     }
 }
 
-llvm::Value *AAHelper::getRepresentative(llvm::Value *v) {
+llvm::Value *AAHelper::getMemRef(llvm::Value *v) {
     for (auto &kv: AASet) {
         if (kv.second.find(v) != kv.second.end())
             return kv.first;
+        else {
+            for (auto &v2: kv.second) {
+                if (AA.alias(v, v2) != llvm::AliasResult::NoAlias)
+                    return kv.first;
+            }
+        }
     }
     return nullptr;
 }
@@ -34,7 +38,7 @@ llvm::Value *AAHelper::getRepresentative(llvm::Value *v) {
 std::string AAHelper::AASetVerboseStr() {
     std::string str;
     for (auto &kv: AASet) {
-        str += kv.first->getName().str() + ":\n";
+        str += kv.first->getName().str() + "(size:" + std::to_string(kv.second.size()) + "): \n";
         for (auto &v: kv.second) {
             str += v->getName().str() + ", ";
         }

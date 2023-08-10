@@ -13,9 +13,7 @@
 #include <llvm/IR/Use.h>
 #include <llvm/IR/Value.h>
 #include <llvm/Pass.h>
-#include <llvm/Analysis/AliasAnalysis.h>
-#include <llvm/Analysis/BasicAliasAnalysis.h>
-#include<llvm/Analysis/AliasSetTracker.h>
+#include "AAHelper.h"
 #include <llvm/Support/raw_ostream.h>
 #include <set>
 #include <vector>
@@ -56,7 +54,7 @@ namespace {
         Parser::AnaParam params;
 
         /// analysis runtime information for intra analysis
-        /// values in Fact should be representative value with name 'AARepresentativeV#no'
+        /// values in Fact should be representative value with name 'AAMemRef__No__#'
         std::unordered_map<BasicBlock *, RCFact::Fact> inFacts;
         std::unordered_map<BasicBlock *, RCFact::Fact> outFacts;
 
@@ -82,7 +80,7 @@ namespace {
         /**
          * change refcount information, if out fact changes, return true
          */
-        bool transferNode(BasicBlock *bb);
+        bool transferNode(BasicBlock *bb, AAHelper &aaHelper);
 
         /**
          * meet the precursors out facts of bb and change the in fact

@@ -21,8 +21,8 @@ private:
 public:
     explicit AAHelper(llvm::AliasAnalysis &aa, llvm::Function *func);
 
-    // get representative value(formatted 'AARepresentativeV#no') of v
-    llvm::Value *getRepresentative(llvm::Value *v);
+    // get representative value(formatted 'AAMemRef__No__') of v
+    llvm::Value *getMemRef(llvm::Value *v);
 
     // print AASet
     std::string AASetVerboseStr();
