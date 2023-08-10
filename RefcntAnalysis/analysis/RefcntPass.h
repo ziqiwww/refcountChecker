@@ -36,45 +36,31 @@ namespace llvm {
 }
 
 namespace {
+
+
+    struct RecntErrorMsg {
+        enum RefcntErrorType {
+            UAF,    // use after free
+            MLK,    // memory leak
+        };
+        long pos;
+        std::string varname;
+        RefcntErrorType errorType;
+    };
+
     struct RefcntPass : public ModulePass {
 
-        /**
-         * @brief describe API that returns special obj
-         */
-        struct srcAPI {
-            std::string fun_name;
-            /// more info goes here
-            // consider return type ???
-
-
-            ///
-        };
-        /**
-         * @brief describe API that has special behaviors to the i'th argument
-         */
-        struct sinkAPI {
-            std::string fun_name;
-            std::vector<int> sinks; // the i'th argument will be influenced but may be more than one
-            /// more info goes here
-
-
-            ///
-        };
 
     private:
         /// tool configuration
         Parser::AnaParam params;
 
-        ///special APIs
-        std::set<srcAPI> retStrongAPI;
-        std::set<srcAPI> retWeakAPI;
-        std::set<sinkAPI> argBorrowAPI;
-        std::set<sinkAPI> argStealAPI;
-
         /// analysis runtime information for intra analysis
+        /// values in Fact should be representative value with name 'AARepresentativeV#no'
         std::unordered_map<BasicBlock *, RCFact::Fact> inFacts;
         std::unordered_map<BasicBlock *, RCFact::Fact> outFacts;
-        std::list<RCFact::Result> error_list;
+
+        std::list<RecntErrorMsg> errList;
 
         /**
          * @brief initialize data structures and prepare arguments
@@ -97,6 +83,12 @@ namespace {
          * change refcount information, if out fact changes, return true
          */
         bool transferNode(BasicBlock *bb);
+
+        /**
+         * meet the precursors out facts of bb and change the in fact
+         * @param bb
+         */
+        void meetinto(BasicBlock *bb);
 
         /**
          * may be used for intra analysis, in forward analysis, change dst's in according to src's out
@@ -128,7 +120,6 @@ namespace {
 
         void refcntAnalysis(Function *fun_entry);
 
-        RCFact::Fact getResult();
     };
 }
 

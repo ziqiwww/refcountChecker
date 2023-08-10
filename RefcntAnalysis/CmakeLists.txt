@@ -2,6 +2,7 @@ add_library(RefcntAnalysis MODULE
         # List your source files here.
         analysis/RefcntAnalysis.cpp
         analysis/Fact.cpp
+        analysis/AAHelper.cpp
         preproc/JsonParser.cpp
         printer/CFGDrawer.hpp
         )

@@ -59,7 +59,9 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
       	// 分析模式： 过程间inter，过程内intra，默认过程内
         "analysesMode": "intra",
       	// 入口函数
-        "entryFunction": "PyInit_spam"
+        "entryFunction": "PyInit_spam",
+        // 详细打印
+        "verbose": true
     }
 }
 ```
@@ -71,3 +73,8 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
 受常量传播和污点分析的启发，前者可以用于跟踪引用计数变化，在交汇处可以检测出不一致（参考矛盾路径对那篇文章），在常量传播过程中把污点数据加入考量，在所有sink的函数处检查该函数的API类型，并更新计数或报告bug.
 
 完成结果保存路径的设置
+
+## 拾遗
+
+1. refcount当且仅当调用点处被更新(call instruction)
+

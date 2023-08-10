@@ -29,7 +29,7 @@ bool Parser::JsonParser::parse(const std::string &path) {
             anaParams.entryFunction = getOrDefault<std::string>("entry", "", ana_conf);
 
             /// set debug mode
-            anaParams.debug = getOrDefault<bool>("debug", false, ana_conf);
+            anaParams.debug = getOrDefault<bool>("verbose", false, ana_conf);
             /// parse done
             return true;
         } catch (const std::exception &e) {

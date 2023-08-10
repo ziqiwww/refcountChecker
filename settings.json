@@ -10,6 +10,6 @@
     "AnalysisConfig": {
         "analysesMode": "intra",
         "entry": "PyInit_spam",
-        "debug": true
+        "verbose": true
     }
 }
