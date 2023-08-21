@@ -26,6 +26,7 @@
 #define XINCREF_STR "_Py_XINCREF"
 #define DECREF_STR "_Py_DECREF"
 #define XDECREF_STR "_Py_XDECREF"
+#define NEWREF_STR "_Py_NewRef"
 
 using namespace llvm;
 
@@ -42,6 +43,7 @@ namespace {
             MLK,    // memory leak
         };
         long pos;
+        std::string funcname;
         std::string varname;
         RefcntErrorType errorType;
     };

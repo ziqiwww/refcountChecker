@@ -12,15 +12,16 @@
 #include <llvm/IR/Instruction.h>
 #include <llvm/IR/Instructions.h>
 
-#define NAC (-1)
-#define UNDEF (-2)
-
 namespace RCFact {
 
     class Fact {
     private:
         std::unordered_map<llvm::Value *, int> cntMap;
     public:
+        enum {
+            UNDEF = -1,
+            NAC = -2
+        };
 
         Fact() = default;
 
@@ -57,6 +58,8 @@ namespace RCFact {
         Fact &operator=(const Fact &f);
 
         bool operator==(const Fact &f);
+
+        std::string toString() const;
 
     };
 

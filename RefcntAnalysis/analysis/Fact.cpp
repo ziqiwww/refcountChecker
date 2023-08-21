@@ -62,3 +62,11 @@ Fact &Fact::operator=(const Fact &f) {
 bool Fact::operator==(const Fact &f) {
     return cntMap == f.cntMap;
 }
+
+std::string Fact::toString() const {
+    std::string str;
+    for (const auto &pair: cntMap) {
+        str += pair.first->getName().str() + ": " + std::to_string(pair.second) + "\n";
+    }
+    return str;
+}

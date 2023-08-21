@@ -50,32 +50,53 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
         switch (op) {
             // TODO: discuss which instructions we care about most
             case Instruction::Call: {
-                auto *call = dyn_cast<CallInst>(&inst);
-                llvm::Function *calledFunction = call->getCalledFunction();
+                auto *callInst = dyn_cast<CallInst>(&inst);
+                llvm::Function *calledFunction = callInst->getCalledFunction();
 
                 auto name = calledFunction->getName();
-                DEBUG_PRINT_FORMAT("call: %s\n", name.data());
+                DEBUG_PRINT_FORMAT("<transferNode> call: %s\n", name.data());
 
                 // TODO: discuss how to report bugs found below
-                if (name == INCREF_STR) {
-
-                } else if (name == XINCREF_STR) {
-                    Value *memref = aaHelper.getMemRef(call->getArgOperand(0));
-                    if (memref == nullptr) {
-                        DEBUG_PRINT_STR("memref is nullptr\n");
-                        break;
-                    } else {
-                        DEBUG_PRINT_FORMAT("memref: %s\n", memref->getName().data());
-                    }
-
-                } else if (name == DECREF_STR) {
-
-                } else if (name == XDECREF_STR) {
-
+                if (name == INCREF_STR || name == XINCREF_STR) {
+                    Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
+                    assert(memref != nullptr);
+                    DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
+                    // update outfacts
+                    int incnt = inFacts[bb].at(memref);
+                    if (incnt == RCFact::Fact::NAC)break;
+                    outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? 1 : incnt + 1);
+                } else if (name == DECREF_STR || name == XDECREF_STR) {
+                    Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
+                    assert(memref != nullptr);
+                    DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
+                    int incnt = inFacts[bb].at(memref);
+                    if (incnt == RCFact::Fact::NAC)break;
+                    outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? RCFact::Fact::NAC : incnt - 1);
+                    // TODO: refcount bug found, decref on a memref with 0 refcnt
+                } else if (name == NEWREF_STR) {
+                    Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
+                    assert(memref != nullptr);
+                    DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
+                    int incnt = inFacts[bb].at(memref);
+                    if (incnt == RCFact::Fact::NAC)break;
+                    outFacts[bb].update(memref, 1);
                 } else {
                     // TODO: check if it's a special API, aka in retStrongAPI/retWeakAPI/argBorrowAPI/argStealAPI
-                    // suggest using another function to do so which processes the api's behavior
-
+                    // in inter analysis, we should first call intra analysis on the called function, the function will
+                    // show if the return value is a strong/weak reference, and if the argument is a borrow/steal reference
+                    // below is an example:
+                    // FIXME: find a way to get return value, this branch[if(name == "PyModule_Create2")] can be uncommented after fixed
+//                    if(name == "PyModule_Create2"){
+//                        // get return value:
+//                        Value *ret = callInst;
+//                        Value *memref = aaHelper.getMemRef(ret);
+//                        assert(memref != nullptr);
+//                        DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
+//                        int incnt = inFacts[bb].at(memref);
+//                        if (incnt == RCFact::Fact::NAC)break;
+//                        // as PyModule_Create2 returns a strong reference, we increment the refcnt as 1
+//                        outFacts[bb].update(memref, 1);
+//                    }
                 }
                 break;
             }
