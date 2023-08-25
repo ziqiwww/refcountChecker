@@ -27,6 +27,7 @@ int Tool::run() {
     if (system(ircmd.c_str()) != 0)return 1;
     std::string opt_cmd(
             "opt -load ../lib/libRefcntAnalysis.so -refcnt --basic-aa -aa-eval -print-all-alias-modref-info ");
+    //-steens-aa
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:

@@ -1,7 +1,7 @@
 {
     "ToolConfig": {
         "clang": "clang",
-        "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
+        "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/naive1.c",
         "args": [
             "-I",
             "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Headers"
@@ -9,7 +9,7 @@
     },
     "AnalysisConfig": {
         "analysesMode": "intra",
-        "entry": "PyInit_spam",
+        "entry": "sum_list",
         "verbose": true
     }
 }

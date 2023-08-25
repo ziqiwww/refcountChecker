@@ -6,6 +6,7 @@
 #define REFCNTANALYSIS_FACT_H
 
 #include <map>
+#include<list>
 #include <llvm/IR/CFG.h>
 #include <llvm/IR/BasicBlock.h>
 #include <llvm/IR/Function.h>
@@ -60,6 +61,10 @@ namespace RCFact {
         bool operator==(const Fact &f);
 
         std::string toString() const;
+
+        [[nodiscard]] const std::unordered_map<llvm::Value *, int> &getCntMap() const {
+            return cntMap;
+        }
 
     };
 

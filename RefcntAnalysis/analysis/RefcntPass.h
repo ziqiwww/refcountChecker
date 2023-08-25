@@ -43,9 +43,25 @@ namespace {
             MLK,    // memory leak
         };
         long pos;
+        std::string memref; // name of the pointing memory
         std::string funcname;
         std::string varname;
         RefcntErrorType errorType;
+
+        [[nodiscard]] std::string toString() const {
+            std::string type;
+            switch (errorType) {
+                case UAF:
+                    type = "UAF";   // use after free
+                    break;
+                case MLK:
+                    type = "MLK";   // memory leak
+                    break;
+            }
+            return "Error:" + type + ";Memory:" + memref + ";Function:" + funcname + ";Line:" + std::to_string(pos) +
+                   ";Variable:" + varname +
+                   ";";
+        }
     };
 
     struct RefcntPass : public ModulePass {
@@ -85,12 +101,6 @@ namespace {
         bool transferNode(BasicBlock *bb, AAHelper &aaHelper);
 
         /**
-         * meet the precursors out facts of bb and change the in fact
-         * @param bb
-         */
-        void meetinto(BasicBlock *bb);
-
-        /**
          * may be used for intra analysis, in forward analysis, change dst's in according to src's out
          */
         bool transferEdge(BasicBlock *src, BasicBlock *dst);
@@ -100,6 +110,12 @@ namespace {
          * feel free to modify and add parameters if needed.
          */
         void CheckBeforeRet();
+
+        /**
+         * @brief report bugs found in functions recorded in errorLists and save to report.log
+         * @param errLists
+         */
+        void bugReport();
 
     public:
         /**

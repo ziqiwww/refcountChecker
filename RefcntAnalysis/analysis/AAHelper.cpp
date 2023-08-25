@@ -12,23 +12,28 @@ AAHelper::AAHelper(llvm::AliasAnalysis &aa, llvm::Function *func) : AA(aa), func
     }
     int i = 0;
     for (auto &aaset: tracker) {
+        if (aaset.empty()) continue;
         std::string repname = "AAMemRef__No__" + std::to_string(i++);
         llvm::Value *rep = new llvm::GlobalVariable(*func->getParent(), aaset.begin()->getValue()->getType(), false,
                                                     llvm::GlobalValue::ExternalLinkage, nullptr, repname);
+
         for (auto &v: aaset) {
             AASet[rep].insert(v.getValue());
         }
     }
 }
 
-llvm::Value *AAHelper::getMemRef(llvm::Value *v) {
+llvm::Value *AAHelper::getMemRef(const llvm::Value *v) {
     for (auto &kv: AASet) {
-        if (kv.second.find(v) != kv.second.end())
+        if (kv.first->getName().str() == v->getName().str() ||
+            kv.second.find(const_cast<llvm::Value *>(v)) != kv.second.end())
             return kv.first;
         else {
             for (auto &v2: kv.second) {
-                if (AA.alias(v, v2) != llvm::AliasResult::NoAlias)
+                if (!AA.isNoAlias(v, v2)) {
+                    kv.second.insert(const_cast<llvm::Value *>(v));
                     return kv.first;
+                }
             }
         }
     }
@@ -45,4 +50,8 @@ std::string AAHelper::AASetVerboseStr() {
         str += "\n";
     }
     return str;
+}
+
+const std::set<llvm::Value *> &AAHelper::getMemRefSet(const llvm::Value *v) {
+    return AASet[getMemRef(v)];
 }
