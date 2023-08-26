@@ -1,0 +1,63 @@
+Trace 0:
+  Transitions:
+    'when PyDict_New() succeeds'
+    'when PyTuple_Size() returns ob_size'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30), region=RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30)))
+    str(): (struct PyObject *)&RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30)) from tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:30
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:28
+
+Trace 1:
+  Transitions:
+    'when PyDict_New() succeeds'
+    'when PyTuple_Size() fails (not a tuple)'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30), region=RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30)))
+    str(): (struct PyObject *)&RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30)) from tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:30
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=30), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_SystemError')) from tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:37
+
+Trace 2:
+  Transitions:
+    'when PyDict_New() fails'
+  error: NullPtrArgument()
+  error: calling PyTuple_Size with NULL as argument 1 (dict) at tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:37
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyTuple_Size/incorrect/input.c:30

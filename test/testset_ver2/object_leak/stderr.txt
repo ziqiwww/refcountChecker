@@ -1,0 +1,11 @@
+In function 'object_leak':
+tests/cpychecker/refcounts/object_leak/input.c:29:nn: warning: memory leak: ob_refcnt of '*tmp' is 1 too high [enabled by default]
+tests/cpychecker/refcounts/object_leak/input.c:26:nn: note: '*tmp' was allocated at:     PyObject *tmp = PyLong_FromLong(0x1000);
+tests/cpychecker/refcounts/object_leak/input.c:29:nn: note: was expecting final owned ob_refcnt of '*tmp' to be 0 since nothing references it but final ob_refcnt is refs: 1 owned
+tests/cpychecker/refcounts/object_leak/input.c:26:nn: note: when PyLong_FromLong() succeeds at:     PyObject *tmp = PyLong_FromLong(0x1000);
+tests/cpychecker/refcounts/object_leak/input.c:26:nn: note: ob_refcnt is now refs: 1 owned
+tests/cpychecker/refcounts/object_leak/input.c:29:nn: note: returning at:     return NULL;
+tests/cpychecker/refcounts/object_leak/input.c:29:nn: warning: returning (PyObject*)NULL without setting an exception [enabled by default]
+tests/cpychecker/refcounts/object_leak/input.c:26:nn: note: when PyLong_FromLong() succeeds at:     PyObject *tmp = PyLong_FromLong(0x1000);
+tests/cpychecker/refcounts/object_leak/input.c:29:nn: note: returning at:     return NULL;
+tests/cpychecker/refcounts/object_leak/input.c:24:nn: note: graphical error report for function 'object_leak' written out to 'tests/cpychecker/refcounts/object_leak/input.c.object_leak-refcount-errors.html'

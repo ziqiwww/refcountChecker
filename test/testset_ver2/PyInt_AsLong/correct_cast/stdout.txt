@@ -1,0 +1,99 @@
+Trace 0:
+  Transitions:
+    'when PyInt_AsLong() succeeds'
+    'when considering range: -0x8000000000000000 <= value <= -2'
+    'taking False path'
+    '__dump((long int)val [-0x8000000000000000 <= val <= -2] from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:34)'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=49), region=RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')))
+    str(): (struct PyObject *)&RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')) from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:49
+    r->ob_refcnt: refs: 1 owned, 1 borrowed
+    r->ob_type: None
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:31
+
+Trace 1:
+  Transitions:
+    'when PyInt_AsLong() succeeds'
+    'when considering value == (long int)-1 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:34'
+    'taking True path'
+    'PyErr_Occurred()'
+    'taking False path'
+    '__dump((long int)-1 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:34)'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=49), region=RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')))
+    str(): (struct PyObject *)&RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')) from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:49
+    r->ob_refcnt: refs: 1 owned, 1 borrowed
+    r->ob_type: None
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:31
+
+Trace 2:
+  Transitions:
+    'when PyInt_AsLong() succeeds'
+    'when considering range: 0 <= value <= 0x7fffffffffffffff'
+    'taking False path'
+    '__dump((long int)val [0 <= val <= 0x7fffffffffffffff] from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:34)'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=49), region=RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')))
+    str(): (struct PyObject *)&RegionForGlobal(gcc.VarDecl('_Py_NoneStruct')) from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:49
+    r->ob_refcnt: refs: 1 owned, 1 borrowed
+    r->ob_type: None
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:31
+
+Trace 3:
+  Transitions:
+    'when PyInt_AsLong() fails'
+    'taking True path'
+    'PyErr_Occurred()'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=38), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:38
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyInt_AsLong/correct_cast/input.c:34

@@ -60,6 +60,9 @@ namespace RCFact {
 
         bool operator==(const Fact &f);
 
+        bool operator!=(const Fact &f);
+
+
         std::string toString() const;
 
         [[nodiscard]] const std::unordered_map<llvm::Value *, int> &getCntMap() const {

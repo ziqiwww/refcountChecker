@@ -1,0 +1,13 @@
+Trace 0:
+  Transitions:
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/tp_iternext/correct/input.c', line=31), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/tp_iternext/correct/input.c:31
+  region for gcc.ParmDecl('iter') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('iter')")
+    str(): region for gcc.ParmDecl('iter') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/tp_iternext/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('iter')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/tp_iternext/correct/input.c:30

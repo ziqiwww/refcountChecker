@@ -1,0 +1,40 @@
+Trace 0:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:26 as non-NULL'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=32), region=RegionOnHeap('borrowed reference returned by PyList_GetItem()', gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=32)))
+    str(): (struct PyObject *)&RegionOnHeap('borrowed reference returned by PyList_GetItem()', gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=32)) from tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:32
+    r->ob_refcnt: refs: 1 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=32), region=Region('PyTypeObject for borrowed reference returned by PyList_GetItem()'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:30
+
+Trace 1:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:26 as NULL'
+  error: NullPtrArgument()
+  error: possibly calling PyList_GetItem with NULL as argument 1 (some_list.0) at tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:32
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_GetItem/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyList_GetItem/correct/input.c:30

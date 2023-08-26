@@ -1,0 +1,31 @@
+Trace 0:
+  Transitions:
+    'when make_wrapper() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=42), region=RegionOnHeap('new ref from (unknown) make_wrapper', gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=42)))
+    str(): (struct PyObject *)&RegionOnHeap('new ref from (unknown) make_wrapper', gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=42)) from tests/cpychecker/refcounts/getter/input.c:42
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=42), region=Region('PyTypeObject for new ref from (unknown) make_wrapper'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=35), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/getter/input.c:36
+
+Trace 1:
+  Transitions:
+    'when make_wrapper() fails'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=42), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/getter/input.c:42
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/getter/input.c', line=35), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/getter/input.c:42

@@ -1,0 +1,8 @@
+In function 'test':
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: warning: memory leak: ob_refcnt of '*foo' is 1 too high [enabled by default]
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: note: was expecting final owned ob_refcnt of '*foo' to be -1 since nothing references it but final ob_refcnt is refs: 0 owned, 1 borrowed
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: note: returning at:     Py_RETURN_NONE;
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: warning: memory leak: ob_refcnt of '*bar' is 1 too high [enabled by default]
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: note: was expecting final owned ob_refcnt of '*bar' to be -1 since nothing references it but final ob_refcnt is refs: 0 owned, 1 borrowed
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:46:nn: note: returning at:     Py_RETURN_NONE;
+tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c:41:nn: note: graphical error report for function 'test' written out to 'tests/cpychecker/refcounts/attributes/steals-reference-to-arg/incorrect-marking/input.c.test-refcount-errors.html'

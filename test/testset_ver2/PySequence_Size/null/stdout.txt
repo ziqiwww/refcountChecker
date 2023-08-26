@@ -1,0 +1,21 @@
+Trace 0:
+  Transitions:
+    'when PySequence_Size raises SystemError due to NULL as argument 1 at tests/cpychecker/refcounts/PySequence_Size/null/input.c:29'
+    'taking False path'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PySequence_Size/null/input.c', line=26), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PySequence_Size/null/input.c:26
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PySequence_Size/null/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PySequence_Size/null/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_SystemError')) from tests/cpychecker/refcounts/PySequence_Size/null/input.c:29

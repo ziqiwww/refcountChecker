@@ -1,0 +1,67 @@
+Trace 0:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when taking True path'
+    'returning'
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyLongObject allocated at tests/cpychecker/refcounts/passing_dead_object/input.c:32:
+    repr(): RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=32))
+    str(): PyLongObject allocated at tests/cpychecker/refcounts/passing_dead_object/input.c:32
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=32), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/passing_dead_object/input.c:30
+
+Trace 1:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when taking False path'
+    'calling tp_dealloc on PyLongObject allocated at tests/cpychecker/refcounts/passing_dead_object/input.c:32'
+  error: PassingPointerToDeallocatedMemory()
+  error: passing pointer to deallocated memory as argument 1 of function at tests/cpychecker/refcounts/passing_dead_object/input.c:45: memory deallocated at tests/cpychecker/refcounts/passing_dead_object/input.c:42
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyLongObject allocated at tests/cpychecker/refcounts/passing_dead_object/input.c:32:
+    repr(): RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=32))
+    str(): PyLongObject allocated at tests/cpychecker/refcounts/passing_dead_object/input.c:32
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/passing_dead_object/input.c:30
+
+Trace 2:
+  Transitions:
+    'when PyLong_FromLong() fails'
+    'taking True path'
+    'returning'
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/passing_dead_object/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/passing_dead_object/input.c:32

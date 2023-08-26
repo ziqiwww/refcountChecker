@@ -1,0 +1,135 @@
+Trace 0:
+  Transitions:
+    'when PyObject_Repr() succeeds'
+    'PyString_AsString() returns ob_sval'
+    'when PyString_FromFormat() succeeds'
+    'when taking True path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), region=RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38)))
+    str(): (struct PyObject *)&RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38)) from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), region=RegionForGlobal(gcc.VarDecl('PyString_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31:
+    repr(): RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31))
+    str(): PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31), region=RegionForGlobal(gcc.VarDecl('PyString_Type')))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:27
+
+Trace 1:
+  Transitions:
+    'when PyObject_Repr() succeeds'
+    'PyString_AsString() returns ob_sval'
+    'when PyString_FromFormat() succeeds'
+    'when taking False path'
+    'calling tp_dealloc on PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), region=RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38)))
+    str(): (struct PyObject *)&RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38)) from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), region=RegionForGlobal(gcc.VarDecl('PyString_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31:
+    repr(): RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31))
+    str(): PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:27
+
+Trace 2:
+  Transitions:
+    'when PyObject_Repr() succeeds'
+    'PyString_AsString() returns ob_sval'
+    'when PyString_FromFormat() fails'
+    'when taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31:
+    repr(): RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31))
+    str(): PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31), region=RegionForGlobal(gcc.VarDecl('PyString_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+
+Trace 3:
+  Transitions:
+    'when PyObject_Repr() succeeds'
+    'PyString_AsString() returns ob_sval'
+    'when PyString_FromFormat() fails'
+    'when taking False path'
+    'calling tp_dealloc on PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=38), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31:
+    repr(): RegionOnHeap('PyStringObject', gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=31))
+    str(): PyStringObject allocated at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+
+Trace 4:
+  Transitions:
+    'when PyObject_Repr() fails'
+  error: NullPtrArgument()
+  error: calling PyString_AsString with NULL as argument 1 (repr_args) at tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:38
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c', line=26), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyString_AsString/incorrect/input.c:31

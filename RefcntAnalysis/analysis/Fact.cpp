@@ -63,6 +63,10 @@ bool Fact::operator==(const Fact &f) {
     return cntMap == f.cntMap;
 }
 
+bool Fact::operator!=(const Fact &f) {
+    return !(*this == f);
+}
+
 std::string Fact::toString() const {
     std::string str;
     for (const auto &pair: cntMap) {
@@ -70,3 +74,5 @@ std::string Fact::toString() const {
     }
     return str;
 }
+
+

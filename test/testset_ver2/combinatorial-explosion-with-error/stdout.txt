@@ -1,0 +1,1119 @@
+Trace 0:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 2 + N where N >= 31
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:140
+
+Trace 1:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 2:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:149
+
+Trace 3:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 4 + N where N >= 29
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 4:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 1 + N where N >= 32
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:33
+
+Trace 5:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 2 + N where N >= 31
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 6:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 2 + N where N >= 31
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:149
+
+Trace 7:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 8:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 2 + N where N >= 31
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:146
+
+Trace 9:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 10:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:149
+
+Trace 11:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 4 + N where N >= 29
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 12:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 2 + N where N >= 31
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:143
+
+Trace 13:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 14:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:149
+
+Trace 15:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 4 + N where N >= 29
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 16:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 3 + N where N >= 30
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:146
+
+Trace 17:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 4 + N where N >= 29
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152
+
+Trace 18:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 4 + N where N >= 29
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:149
+
+Trace 19:
+  Transitions:
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'when PyDict_New() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() succeeds'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'when PyModule_AddObject() fails'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34)) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:34
+    r->ob_refcnt: refs: 5 + N where N >= 28
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=34), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('m') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('m')")
+    str(): region for gcc.ParmDecl('m') on stack
+    r->ob_refcnt: refs: 0 + N where N >= 1
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=32), region=Region("region-for-type-of-arg-gcc.ParmDecl('m')"))
+  PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45:
+    repr(): RegionOnHeap('PyDictObject', gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45))
+    str(): PyDictObject allocated at tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:45
+    r->ob_refcnt: refs: 1 + N where N >= 0
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c', line=45), region=RegionForGlobal(gcc.VarDecl('PyDict_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/combinatorial-explosion-with-error/input.c:152

@@ -1,0 +1,9 @@
+In function 'test':
+tests/cpychecker/refcounts/ticket-20/input.c:36:nn: warning: future use-after-free: ob_refcnt of '*self' is 1 too low [enabled by default]
+tests/cpychecker/refcounts/ticket-20/input.c:36:nn: note: was expecting final owned ob_refcnt of '*self' to be 0 since nothing references it but final ob_refcnt is refs: -1 owned, 1 borrowed
+tests/cpychecker/refcounts/ticket-20/input.c:33:nn: note: ob_refcnt is now refs: -1 owned, 1 borrowed
+tests/cpychecker/refcounts/ticket-20/input.c:33:nn: note: when taking True path at:     Py_DECREF(self);
+tests/cpychecker/refcounts/ticket-20/input.c:36:nn: note: reaching:     return 0;
+tests/cpychecker/refcounts/ticket-20/input.c:36:nn: note: returning at:     return 0;
+tests/cpychecker/refcounts/ticket-20/input.c:36:nn: note: found 1 similar trace(s) to this
+tests/cpychecker/refcounts/ticket-20/input.c:31:nn: note: graphical error report for function 'test' written out to 'tests/cpychecker/refcounts/ticket-20/input.c.test-refcount-errors.html'

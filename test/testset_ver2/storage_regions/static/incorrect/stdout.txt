@@ -1,0 +1,70 @@
+Trace 0:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:24 as non-NULL'
+    'taking False path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=30), region=Region('heap-region-0'))
+    str(): (struct PyObject *)&Region('heap-region-0') from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:30
+    r->ob_refcnt: None
+    r->ob_type: None
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:24
+
+Trace 1:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:24 as NULL'
+    'taking True path'
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=36), region=RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=36)))
+    str(): (struct PyObject *)&RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=36)) from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:36
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=36), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:24
+
+Trace 2:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:24 as NULL'
+    'taking True path'
+    'when PyLong_FromLong() fails'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=38), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:38
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/storage_regions/static/incorrect/input.c:36

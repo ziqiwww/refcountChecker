@@ -1,0 +1,6 @@
+In function 'losing_refcnt_of_none':
+tests/cpychecker/refcounts/incorrect_py_none/input.c:26:nn: warning: future use-after-free: ob_refcnt of return value is 1 too low [enabled by default]
+tests/cpychecker/refcounts/incorrect_py_none/input.c:26:nn: note: was expecting final owned ob_refcnt of return value to be 1 due to object being referenced by: return value but final ob_refcnt is refs: 0 owned, 1 borrowed
+tests/cpychecker/refcounts/incorrect_py_none/input.c:26:nn: note: returning at:     return Py_None;
+tests/cpychecker/refcounts/incorrect_py_none/input.c:26:nn: note: consider using "Py_RETURN_NONE;"
+tests/cpychecker/refcounts/incorrect_py_none/input.c:24:nn: note: graphical error report for function 'losing_refcnt_of_none' written out to 'tests/cpychecker/refcounts/incorrect_py_none/input.c.losing_refcnt_of_none-refcount-errors.html'

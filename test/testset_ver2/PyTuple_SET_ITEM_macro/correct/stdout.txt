@@ -1,0 +1,109 @@
+Trace 0:
+  Transitions:
+    'when PyTuple_New() succeeds'
+    'taking False path'
+    'when PyLong_FromLong() succeeds'
+    'taking False path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27), region=RegionOnHeap('PyTupleObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27)))
+    str(): (struct PyObject *)&RegionOnHeap('PyTupleObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27)) from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27), region=RegionForGlobal(gcc.VarDecl('PyTuple_Type')))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyLongObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:32:
+    repr(): RegionOnHeap('PyLongObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=32))
+    str(): PyLongObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:32
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=32), region=RegionForGlobal(gcc.VarDecl('PyLong_Type')))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:24
+
+Trace 1:
+  Transitions:
+    'when PyTuple_New() succeeds'
+    'taking False path'
+    'when PyLong_FromLong() fails'
+    'taking True path'
+    'when taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=35), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:35
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyTupleObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27:
+    repr(): RegionOnHeap('PyTupleObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27))
+    str(): PyTupleObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27), region=RegionForGlobal(gcc.VarDecl('PyTuple_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:32
+
+Trace 2:
+  Transitions:
+    'when PyTuple_New() succeeds'
+    'taking False path'
+    'when PyLong_FromLong() fails'
+    'taking True path'
+    'when taking False path'
+    'calling tp_dealloc on PyTupleObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=35), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:35
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyTupleObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27:
+    repr(): RegionOnHeap('PyTupleObject', gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=27))
+    str(): PyTupleObject allocated at tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:32
+
+Trace 3:
+  Transitions:
+    'when PyTuple_New() fails'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=29), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:29
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c', line=23), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyTuple_SET_ITEM_macro/correct/input.c:27

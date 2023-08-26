@@ -1,0 +1,13 @@
+Trace 0:
+  Transitions:
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/tp_iternext/partial-type-object/input.c', line=33), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/tp_iternext/partial-type-object/input.c:33
+  region for gcc.ParmDecl('obj') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('obj')")
+    str(): region for gcc.ParmDecl('obj') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/tp_iternext/partial-type-object/input.c', line=30), region=Region("region-for-type-of-arg-gcc.ParmDecl('obj')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/tp_iternext/partial-type-object/input.c:31

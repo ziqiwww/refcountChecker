@@ -70,14 +70,17 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? RCFact::Fact::NAC : incnt - 1);
                     if (outFacts[bb].at(memref) < 0) {
+
                         RecntErrorMsg msg;
-                        msg.pos = inst.getDebugLoc().getLine();
+                        // FIXME: find a way to get this line, the following line will corrupt
+//                        msg.pos = inst.getDebugLoc().getLine();
                         msg.memref = memref->getName().str();
                         msg.funcname = bb->getParent()->getName().str();
                         msg.varname = callInst->getArgOperand(0)->getName().str();
                         msg.errorType = RecntErrorMsg::UAF;
                         errList.emplace_back(msg);
                     }
+                    printf("dbg2\n");
                 } else if (name == NEWREF_STR) {
                     Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
                     assert(memref != nullptr);
@@ -108,7 +111,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                 break;
         }
     }
-    return inFacts[bb] == outFacts[bb];
+    return inFacts[bb] != outFacts[bb];
 }
 
 bool RefcntPass::transferEdge(BasicBlock *src, BasicBlock *dst) {
@@ -144,7 +147,6 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
     if (params.debug)
         printCFG(cur_func);
 
-    // mainly focus on
     if (cur_func->empty())
         return;
     // prepare to traverse CFG
@@ -156,6 +158,11 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
         // currently analyzed block
         BasicBlock *block = workList.front();
         workList.pop_front();
+        // meet out facts into in fact from predecessors
+        inFacts[block] = RCFact::Fact();
+        for (BasicBlock *pred: predecessors(block)) {
+            inFacts[block].factUnion(outFacts[pred]);
+        }
         if (!transferNode(block, aaHelper))continue;
         for (BasicBlock *succ: successors(block)) {
             workList.emplace_back(succ);

@@ -1,0 +1,74 @@
+Trace 0:
+  Transitions:
+    'taking False path'
+    'when considering range: -0x80000000 <= value <= -1'
+    'taking True path'
+    'PyBool_FromLong() returns'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)))
+    str(): (struct PyObject *)&RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)) from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:35
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=Region('PyTypeObject for PyBool_FromLong'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:30
+
+Trace 1:
+  Transitions:
+    'taking False path'
+    'when considering value == (int)0 from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:35'
+    'taking False path'
+    'PyBool_FromLong() returns'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)))
+    str(): (struct PyObject *)&RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)) from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:35
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=Region('PyTypeObject for PyBool_FromLong'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:30
+
+Trace 2:
+  Transitions:
+    'taking False path'
+    'when considering range: 1 <= value <= 0x7fffffff'
+    'taking True path'
+    'PyBool_FromLong() returns'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)))
+    str(): (struct PyObject *)&RegionOnHeap('PyBool_FromLong', gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35)) from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:35
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=35), region=Region('PyTypeObject for PyBool_FromLong'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyType_IsSubtype/correct/input.c:30

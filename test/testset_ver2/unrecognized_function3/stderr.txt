@@ -1,0 +1,8 @@
+In function 'call_to_unrecognized_function':
+tests/cpychecker/refcounts/unrecognized_function3/input.c:33:nn: warning: memory leak: ob_refcnt of new ref from (unknown) foo is 1 too high [enabled by default]
+tests/cpychecker/refcounts/unrecognized_function3/input.c:32:nn: note: new ref from (unknown) foo was allocated at:     foo(42);
+tests/cpychecker/refcounts/unrecognized_function3/input.c:33:nn: note: was expecting final owned ob_refcnt of new ref from (unknown) foo to be 0 since nothing references it but final ob_refcnt is refs: 1 owned
+tests/cpychecker/refcounts/unrecognized_function3/input.c:32:nn: note: when foo() succeeds at:     foo(42);
+tests/cpychecker/refcounts/unrecognized_function3/input.c:32:nn: note: ob_refcnt is now refs: 1 owned
+tests/cpychecker/refcounts/unrecognized_function3/input.c:33:nn: note: returning at: }
+tests/cpychecker/refcounts/unrecognized_function3/input.c:30:nn: note: graphical error report for function 'call_to_unrecognized_function' written out to 'tests/cpychecker/refcounts/unrecognized_function3/input.c.call_to_unrecognized_function-refcount-errors.html'

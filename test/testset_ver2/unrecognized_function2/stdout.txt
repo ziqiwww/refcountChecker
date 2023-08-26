@@ -1,0 +1,138 @@
+Trace 0:
+  Transitions:
+    'when foo() succeeds'
+    'taking False path'
+    'when taking True path'
+    'when foo() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), region=RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43)))
+    str(): (struct PyObject *)&RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43)) from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), region=Region('PyTypeObject for new ref from (unknown) foo'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34:
+    repr(): RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34))
+    str(): new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34), region=Region('PyTypeObject for new ref from (unknown) foo'))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/unrecognized_function2/input.c:30
+
+Trace 1:
+  Transitions:
+    'when foo() succeeds'
+    'taking False path'
+    'when taking True path'
+    'when foo() fails'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34:
+    repr(): RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34))
+    str(): new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34), region=Region('PyTypeObject for new ref from (unknown) foo'))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+
+Trace 2:
+  Transitions:
+    'when foo() succeeds'
+    'taking False path'
+    'when taking False path'
+    'calling tp_dealloc on new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34'
+    'when foo() succeeds'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), region=RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43)))
+    str(): (struct PyObject *)&RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43)) from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+    r->ob_refcnt: refs: 1 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), region=Region('PyTypeObject for new ref from (unknown) foo'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34:
+    repr(): RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34))
+    str(): new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/unrecognized_function2/input.c:30
+
+Trace 3:
+  Transitions:
+    'when foo() succeeds'
+    'taking False path'
+    'when taking False path'
+    'calling tp_dealloc on new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34'
+    'when foo() fails'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=43), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34:
+    repr(): RegionOnHeap('new ref from (unknown) foo', gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=34))
+    str(): new ref from (unknown) foo allocated at tests/cpychecker/refcounts/unrecognized_function2/input.c:34
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/unrecognized_function2/input.c:43
+
+Trace 4:
+  Transitions:
+    'when foo() fails'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=36), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/unrecognized_function2/input.c:36
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/unrecognized_function2/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/unrecognized_function2/input.c:34

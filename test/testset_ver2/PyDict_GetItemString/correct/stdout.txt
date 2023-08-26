@@ -1,0 +1,64 @@
+Trace 0:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:26 as non-NULL'
+    'when PyDict_GetItemString() succeeds'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): PointerToRegion(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=32), region=RegionOnHeap('borrowed reference returned by PyDict_GetItemString()', gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=32)))
+    str(): (struct PyObject *)&RegionOnHeap('borrowed reference returned by PyDict_GetItemString()', gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=32)) from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:32
+    r->ob_refcnt: refs: 1 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=32), region=Region('PyTypeObject for borrowed reference returned by PyDict_GetItemString()'))
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:30
+
+Trace 1:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:26 as non-NULL'
+    'PyDict_GetItemString does not find string'
+    'taking False path'
+    'calling PyErr_SetString()'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='struct PyObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=42), value=0)
+    str(): (struct PyObject *)0 from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:42
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    unknown struct PyObject * from /usr/include/python?.?/pyerrors.h:nn
+
+Trace 2:
+  Transitions:
+    'when treating unknown struct PyObject * from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:26 as NULL'
+  error: NullPtrArgument()
+  error: possibly calling PyDict_GetItemString with NULL as argument 1 (some_dict.0) at tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:32
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c', line=29), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)0 from tests/cpychecker/refcounts/PyDict_GetItemString/correct/input.c:30

@@ -1,0 +1,77 @@
+Trace 0:
+  Transitions:
+    'when PyList_New() succeeds'
+    'taking False path'
+    'returning -1 from PyList_Append() due to NULL item'
+    'when taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='int', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=37), value=-1)
+    str(): (int)-1 from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:37
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyListObject allocated at tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32:
+    repr(): RegionOnHeap('PyListObject', gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=32))
+    str(): PyListObject allocated at tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32
+    r->ob_refcnt: refs: 0 owned
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=32), region=RegionForGlobal(gcc.VarDecl('PyList_Type')))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_SystemError')) from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:37
+
+Trace 1:
+  Transitions:
+    'when PyList_New() succeeds'
+    'taking False path'
+    'returning -1 from PyList_Append() due to NULL item'
+    'when taking False path'
+    'calling tp_dealloc on PyListObject allocated at tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='int', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=37), value=-1)
+    str(): (int)-1 from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:37
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  PyListObject allocated at tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32:
+    repr(): RegionOnHeap('PyListObject', gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=32))
+    str(): PyListObject allocated at tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32
+    r->ob_refcnt: None
+    r->ob_type: None
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_SystemError')) from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:37
+
+Trace 2:
+  Transitions:
+    'when PyList_New() fails'
+    'taking True path'
+    'returning'
+  Return value:
+    repr(): ConcreteValue(gcctype='int', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=34), value=42)
+    str(): (int)42 from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:34
+  region for gcc.ParmDecl('self') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('self')")
+    str(): region for gcc.ParmDecl('self') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('self')"))
+  region for gcc.ParmDecl('args') on stack:
+    repr(): RegionOnStack("region for gcc.ParmDecl('args')")
+    str(): region for gcc.ParmDecl('args') on stack
+    r->ob_refcnt: refs: 0 owned, 1 borrowed
+    r->ob_type: PointerToRegion(gcctype='struct PyTypeObject *', loc=gcc.Location(file='tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c', line=27), region=Region("region-for-type-of-arg-gcc.ParmDecl('args')"))
+  Exception:
+    (struct PyObject *)&RegionForGlobal(gcc.VarDecl('PyExc_MemoryError')) from tests/cpychecker/refcounts/PyList_Append/null-newitem/input.c:32
