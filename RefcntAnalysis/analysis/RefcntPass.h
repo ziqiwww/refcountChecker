@@ -43,9 +43,9 @@ namespace {
             MLK,    // memory leak
         };
         long pos;
-        std::string memref; // name of the pointing memory
-        std::string funcname;
-        std::string varname;
+        Value *memref; // name of the pointing memory
+        Function *func;
+        Value *var;
         RefcntErrorType errorType;
 
         [[nodiscard]] std::string toString() const {
@@ -58,8 +58,9 @@ namespace {
                     type = "MLK";   // memory leak
                     break;
             }
-            return "Error:" + type + ";Memory:" + memref + ";Function:" + funcname + ";Line:" + std::to_string(pos) +
-                   ";Variable:" + varname +
+            return "Error:" + type + ";Memory:" + memref->getName().str() + ";Function:" + func->getName().str() +
+                   ";Line:" + std::to_string(pos) +
+                   ";Variable:" + var->getName().str() +
                    ";";
         }
     };
@@ -78,22 +79,13 @@ namespace {
 
         std::list<RecntErrorMsg> errList;
 
+        std::unordered_map<Function *, std::list<RecntErrorMsg>> errTab;
+
         /**
          * @brief initialize data structures and prepare arguments
          */
         void init_pass();
 
-        /**
-         * @brief intraprocedual analysis
-         * @param cur_func analysis function
-         */
-        void intraAnalysis(Function *cur_func);
-
-        /**
-         * @brief inter analysis
-         * @param cur_func
-         */
-        void interAnalysis(Function *cur_func);
 
         /**
          * change refcount information, if out fact changes, return true
@@ -134,7 +126,11 @@ namespace {
 
         void getAnalysisUsage(llvm::AnalysisUsage &AU) const override;
 
-        void refcntAnalysis(Function *fun_entry);
+        /**
+         * @brief start analysis
+         * @param cur_func analysis function
+         */
+        void refcntAnalysis(Function *cur_func);
 
     };
 }

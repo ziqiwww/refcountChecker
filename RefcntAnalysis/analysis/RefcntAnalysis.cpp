@@ -74,9 +74,9 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         RecntErrorMsg msg;
                         // FIXME: find a way to get this line, the following line will corrupt
 //                        msg.pos = inst.getDebugLoc().getLine();
-                        msg.memref = memref->getName().str();
-                        msg.funcname = bb->getParent()->getName().str();
-                        msg.varname = callInst->getArgOperand(0)->getName().str();
+                        msg.memref = memref;
+                        msg.func = bb->getParent();
+                        msg.var = callInst->getArgOperand(0);
                         msg.errorType = RecntErrorMsg::UAF;
                         errList.emplace_back(msg);
                     }
@@ -102,6 +102,24 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         int incnt = inFacts[bb].at(memref);
                         if (incnt == RCFact::Fact::NAC)break;
                         outFacts[bb].update(memref, 1);
+                    } else {
+                        if (params.analysesMode == "intra") {
+                            // user defined function, store in out facts and errlist of current analysis.
+                            std::unordered_map<BasicBlock *, RCFact::Fact> curInFacts = inFacts;
+                            std::unordered_map<BasicBlock *, RCFact::Fact> curOutFacts = outFacts;
+                            std::list<RecntErrorMsg> curErrList = errList;
+                            inFacts.clear(), outFacts.clear(), errList.clear();
+                            refcntAnalysis(calledFunction);
+                            // check the error list of called function if its argument is a borrow/steal reference
+                            // TODO: check arguments and return variables to identify the function's type
+
+                            // recover facts and errlist
+                            inFacts = curInFacts;
+                            outFacts = curOutFacts;
+                            errList = curErrList;
+                        } else {
+                            // leave out this instruction
+                        }
                     }
                 }
                 break;
@@ -118,30 +136,22 @@ bool RefcntPass::transferEdge(BasicBlock *src, BasicBlock *dst) {
     return false;
 }
 
-void RefcntPass::refcntAnalysis(Function *fun_entry) {
+void RefcntPass::refcntAnalysis(Function *cur_func) {
     // start from the entry function,
     //
     // TODO: do additional set up before traversing entry
-    for (BasicBlock &bb: *fun_entry) {
+    for (BasicBlock &bb: *cur_func) {
         inFacts.insert({&bb, RCFact::Fact()});
         outFacts.insert({&bb, RCFact::Fact()});
     }
-    if (params.analysesMode == "inter") {
-        // start analysis
-        interAnalysis(fun_entry);
-    } else {
-        intraAnalysis(fun_entry);
-    }
-}
 
-void RefcntPass::intraAnalysis(Function *cur_func) {
     // get alias analysis result
     auto &AA = getAnalysis<AAResultsWrapperPass>(*cur_func).getAAResults();
     AAHelper aaHelper(AA, cur_func);
-    DEBUG_PRINT_STR("<intraAnalysis> intra analysis started\n");
-    DEBUG_PRINT_FORMAT("<intraAnalysis> function: %s\n", cur_func->getName().data());
+    DEBUG_PRINT_STR("<doAnalysis> intra analysis started\n");
+    DEBUG_PRINT_FORMAT("<doAnalysis> function: %s\n", cur_func->getName().data());
     DEBUG_PRINT_FORMAT(
-            "<intraAnalysis>---------AA sets begin---------\n%s\n<intraAnalysis>---------AA sets end---------\n",
+            "<intraAnalysis>---------AA sets begin---------\n%s\n<doAnalysis>---------AA sets end---------\n",
             aaHelper.AASetVerboseStr().data());
 
     if (params.debug)
@@ -175,9 +185,9 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
                 for (auto &v: aaHelper.getMemRefSet(pair.first)) {
                     RecntErrorMsg msg;
                     msg.pos = 0;
-                    msg.memref = pair.first->getName().str();
-                    msg.funcname = cur_func->getName().str();
-                    msg.varname = v->getName().str();
+                    msg.memref = pair.first;
+                    msg.func = cur_func;
+                    msg.var = v;
                     msg.errorType = RecntErrorMsg::MLK;
                     errList.emplace_back(msg);
                 }
@@ -185,11 +195,9 @@ void RefcntPass::intraAnalysis(Function *cur_func) {
         }
     }
 
+    errTab[cur_func] = errList;
     bugReport();
-}
 
-void RefcntPass::interAnalysis(Function *cur_func) {
-    // TODO: do interprocedure analysis for cur func, may call intraAnalysis
 }
 
 void RefcntPass::CheckBeforeRet() {
