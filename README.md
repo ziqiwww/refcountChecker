@@ -84,7 +84,7 @@ pass中，对于没编码的函数认为是用户自定义函数，过程间分�
 调用者的分析，调用者根据元信息再进行分析。
 
 以下是针对spammodule.c的分析结果，
-UAF表示使用后释放，MLK表示内存泄漏，Memory:AAMemRef__No__0表示该ref指向的实际内存id，Function:PyInit_spam表示
+UAF表示释放后使用，MLK表示内存泄漏，Memory:AAMemRef__No__0表示该ref指向的实际内存id，Function:PyInit_spam表示
 函数名为PyInit_spam，Line:6128163511表示行号（），Variable:表示变量名，如果为空则表示某个临时变量。
 
 ```asm
