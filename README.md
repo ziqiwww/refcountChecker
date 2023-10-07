@@ -74,7 +74,45 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
 
 完成结果保存路径的设置
 
-## 拾遗
+## 项目进展
 
-1. refcount当且仅当调用点处被更新(call instruction)
+目前能够使用llvm内置的basic-aa 的指针分析判断别名，进行单函数bug report，目前存在的问题是
+由于basic-aa精度有限因此可能误报率比较高，需要进一步优化。
+
+对于内置API的处理是需要将其在参数处stole或borrow以及返回weak或strong的元信息硬编码到
+pass中，对于没编码的函数认为是用户自定义函数，过程间分析也是类似，需要将函数的元信息返回给
+调用者的分析，调用者根据元信息再进行分析。
+
+以下是针对spammodule.c的分析结果，
+UAF表示使用后释放，MLK表示内存泄漏，Memory:AAMemRef__No__0表示该ref指向的实际内存id，Function:PyInit_spam表示
+函数名为PyInit_spam，Line:6128163511表示行号（），Variable:表示变量名，如果为空则表示某个临时变量。
+
+```asm
+<bugReport> Error:UAF;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:6128163511;Variable:;
+<bugReport> Error:UAF;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:6128163511;Variable:;
+<bugReport> Error:UAF;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:6128163511;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:Spam_Error;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call1;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:Spam_Error;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call1;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:Spam_Error;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call;
+<bugReport> Error:MLK;Memory:AAMemRef__No__0;Function:PyInit_spam;Line:0;Variable:call1;
+
+```
+
 
