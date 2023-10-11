@@ -15,7 +15,7 @@
 #include <llvm/Pass.h>
 #include "AAHelper.h"
 #include <llvm/Support/raw_ostream.h>
-#include <set>
+#include <unordered_set>
 #include <vector>
 #include <map>
 #include <list>
@@ -41,12 +41,20 @@ namespace {
         enum RefcntErrorType {
             UAF,    // use after free
             MLK,    // memory leak
+            NMC     // not managed correctly for values in outerMemSet
         };
         long pos;
         Value *memref; // name of the pointing memory
         Function *func;
         Value *var;
         RefcntErrorType errorType;
+
+        RecntErrorMsg(long pos, Value *memref, Function *func, Value *var, RefcntErrorType errorType) :
+                pos(pos),
+                memref(memref),
+                func(func),
+                var(var),
+                errorType(errorType) {}
 
         [[nodiscard]] std::string toString() const {
             std::string type;
@@ -57,12 +65,40 @@ namespace {
                 case MLK:
                     type = "MLK";   // memory leak
                     break;
+                case NMC:
+                    type = "NMC";   // not managed correctly for values in outerMemSet
+                    break;
             }
             return "Error:" + type + ";Memory:" + memref->getName().str() + ";Function:" + func->getName().str() +
                    ";Line:" + std::to_string(pos) +
                    ";Variable:" + var->getName().str() +
                    ";";
         }
+    };
+
+    enum APITag {
+        STRONGRET,
+        WEAKRET,
+        PARAMSTEAL,
+        PARAMBORROW,
+        PARAMSTRONG,
+        TYPEUNDEFINE
+    };
+
+    struct APIType {
+        APITag tag;
+        ///For "parameter type" API
+        int target_param_num;
+        int param_index[3];
+
+        APIType() {}
+
+        APIType(APITag t, int sn = 0, int pi1 = -1, int pi2 = -1, int pi3 = -1) : tag(t), target_param_num(sn) {
+            param_index[0] = pi1;
+            param_index[1] = pi2;
+            param_index[2] = pi3;
+        }
+
     };
 
     struct RefcntPass : public ModulePass {
@@ -77,9 +113,14 @@ namespace {
         std::unordered_map<BasicBlock *, RCFact::Fact> inFacts;
         std::unordered_map<BasicBlock *, RCFact::Fact> outFacts;
 
+        // record memref that the current analysed function should not manage
+        std::unordered_set<Value *> outerMemSet;
+
         std::list<RecntErrorMsg> errList;
 
         std::unordered_map<Function *, std::list<RecntErrorMsg>> errTab;
+
+        std::unordered_map<std::string, APIType> apiInfo;
 
         /**
          * @brief initialize data structures and prepare arguments
@@ -108,6 +149,11 @@ namespace {
          * @param errLists
          */
         void bugReport();
+
+        void initAPIInfo();
+
+
+        APIType getAPIType(std::string name);
 
     public:
         /**

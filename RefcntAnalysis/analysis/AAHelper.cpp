@@ -40,7 +40,7 @@ llvm::Value *AAHelper::getMemRef(const llvm::Value *v) {
     return nullptr;
 }
 
-std::string AAHelper::AASetVerboseStr() {
+std::string AAHelper::toString() {
     std::string str;
     for (auto &kv: AASet) {
         str += kv.first->getName().str() + "(size:" + std::to_string(kv.second.size()) + "): \n";
