@@ -286,6 +286,7 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     // prepare to traverse CFG
     using std::deque, std::set;
     deque<BasicBlock *> workList;
+    std::unordered_set<BasicBlock *> visited;
     // we do forward analysis
     // initialize worklist with all blocks
     for (BasicBlock &bb: *cur_func) {
@@ -295,6 +296,8 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
         // currently analyzed block
         BasicBlock *block = workList.front();
         workList.pop_front();
+        if (visited.find(block) != visited.end())continue;
+        visited.insert(block);
         // meet out facts into in fact from predecessors
         inFacts[block] = RCFact::Fact();
         for (BasicBlock *pred: predecessors(block)) {
