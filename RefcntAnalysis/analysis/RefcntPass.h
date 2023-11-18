@@ -76,6 +76,11 @@ namespace {
         }
     };
 
+    typedef struct EndFuncRef {
+        long ref;
+        Value *memref;
+    } EndFuncRef;
+
     enum APITag {
         STRONGRET,
         WEAKRET,
@@ -121,6 +126,14 @@ namespace {
         std::unordered_map<Function *, std::list<RecntErrorMsg>> errTab;
 
         std::unordered_map<std::string, APIType> apiInfo;
+
+        std::unordered_set<Function *> funcVisited;
+
+        std::list<EndFuncRef> endFuncInf;
+
+        std::unordered_map<Function *, std::list<EndFuncRef>> endFuncTab;
+
+        Value *curRetVal;
 
         /**
          * @brief initialize data structures and prepare arguments

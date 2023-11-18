@@ -39,7 +39,7 @@ ToolConfig用于配制一些基本信息，比如使用的clang路径，生成.l
 AnalyzeConfig用于配制数据流分析的基本信息，包括
 
 * 入口函数 "entryFunction"
-* 分析模式 "analysesMode"：。
+* 分析模式 "analysisMode"：。
 
 ```json
 {
@@ -57,7 +57,7 @@ AnalyzeConfig用于配制数据流分析的基本信息，包括
     },
     "AnalysisConfig": {
       	// 分析模式： 过程间inter，过程内intra，默认过程内
-        "analysesMode": "intra",
+        "analysisMode": "intra",
       	// 入口函数
         "entryFunction": "PyInit_spam",
         // 详细打印

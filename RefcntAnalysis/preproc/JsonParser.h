@@ -11,7 +11,7 @@
 namespace Parser {
     struct AnaParam {
         /// basic properties
-        std::string analysesMode = "intra";
+        std::string analysisMode = "intra";
         std::string entryFunction;
         bool debug = true;
     };

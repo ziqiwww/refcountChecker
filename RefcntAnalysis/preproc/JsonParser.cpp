@@ -12,7 +12,7 @@ bool Parser::JsonParser::parse(const std::string &path) {
     using json = nlohmann::json;
     std::ifstream jfile(path.c_str(), std::ios::in);
     if (!jfile.is_open()) {
-        outs() << "settings.json is not open, will use default settings\n";
+        outs() << "<parse> settings.json is not open, will use default settings\n";
         return true;
     } else {
         try {
@@ -23,7 +23,7 @@ bool Parser::JsonParser::parse(const std::string &path) {
             auto ana_conf = config.at("AnalysisConfig");
 
             /// mode is either inter or intra
-            anaParams.analysesMode = getOrDefault<std::string>("mode", "intra", ana_conf);
+            anaParams.analysisMode = getOrDefault<std::string>("analysisMode", "intra", ana_conf);
 
             /// set entry function in the module;
             anaParams.entryFunction = getOrDefault<std::string>("entry", "", ana_conf);

@@ -39,6 +39,7 @@ void RefcntPass::init_pass() {
         DEBUG_PRINT_STR("<init_pass> use default settings\n");
     }
     params = parser.anaParams;
+    initAPIInfo();
 
     DEBUG_PRINT_STR("<init_pass> initialization done\n");
 }
@@ -147,7 +148,8 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                             break;
                         }
                     } else {
-                        if (params.analysesMode == "intra") {
+                        if (params.analysisMode == "inter" &&
+                            funcVisited.find(calledFunction) == funcVisited.end()) { // buggy
                             // user defined function, store in out facts and errlist of current analysis.
                             std::unordered_map<BasicBlock *, RCFact::Fact> curInFacts = inFacts;
                             std::unordered_map<BasicBlock *, RCFact::Fact> curOutFacts = outFacts;
@@ -163,6 +165,46 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                             outFacts = curOutFacts;
                             outerMemSet = curOuterMemSet;
                             errList = curErrList;
+                            std::vector<Value *> argVec;
+                            std::vector<Value *> paramVec;
+                            for (llvm::Function::arg_iterator arg = calledFunction->arg_begin();
+                                 arg != calledFunction->arg_end(); ++arg) {
+                                Value *param = &*arg;
+                                Value *memref = aaHelper.getMemRef(param);
+                                paramVec.emplace_back(memref);
+                            }
+                            for (unsigned int i = 0, e = callInst->getNumOperands(); i != e; ++i) {
+                                Value *operand = callInst->getOperand(i);
+                                Value *memref = aaHelper.getMemRef(operand);
+                                if (isa<Argument>(operand)) argVec.emplace_back(memref);
+                            }
+                            assert(argVec.size() == paramVec.size());
+                            std::map<Value *, Value *> mapArg;
+                            for (int i = 0; i < argVec.size(); ++i)
+                                mapArg.insert(std::pair<Value *, Value *>(paramVec[i], argVec[i]));
+                            for (auto inf = endFuncTab[calledFunction].begin();
+                                 inf != endFuncTab[calledFunction].end(); inf++) {
+                                long cnt = inf->ref;
+                                Value *memref = inf->memref;
+                                auto iter = mapArg.find(memref);
+                                if (iter != mapArg.end() && cnt == -1) { // buggy
+                                    Value *callerVar = iter->second;
+                                    outFacts[bb].update(callerVar, -1);
+                                    for (auto it = errTab[calledFunction].begin();
+                                         it != errTab[calledFunction].end(); it++) {
+                                        if (it->memref == memref) errTab[calledFunction].erase(it);
+                                    }
+                                }
+                                if (memref == curRetVal && cnt == 1) {
+                                    auto *ret = dyn_cast<Value>(callInst);
+                                    Value *ret_memref = aaHelper.getMemRef(ret);
+                                    outFacts[bb].update(ret_memref, 1);
+                                    for (auto it = errTab[calledFunction].begin();
+                                         it != errTab[calledFunction].end(); it++) {
+                                        if (it->memref == ret_memref) errTab[calledFunction].erase(it);
+                                    }
+                                }
+                            }
                         } else {
                             // leave out this instruction
                         }
@@ -170,7 +212,12 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                 }
                 break;
             } // end of case Call
-
+            case Instruction::Ret: {
+                auto *returnInst = dyn_cast<ReturnInst>(&inst);
+                Value *retVal = returnInst->getReturnValue();
+                Value *memref = aaHelper.getMemRef(retVal);
+                curRetVal = memref;
+            }
             default:
                 break;
         }
@@ -186,11 +233,12 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     // start from the entry function,
     //
     // TODO: do additional set up before traversing entry
+
+    funcVisited.insert(cur_func);
     for (BasicBlock &bb: *cur_func) {
         inFacts.insert({&bb, RCFact::Fact()});
         outFacts.insert({&bb, RCFact::Fact()});
     }
-
     // get alias analysis result
     auto &AA = getAnalysis<AAResultsWrapperPass>(*cur_func).getAAResults();
     AAHelper aaHelper(AA, cur_func);
@@ -199,9 +247,7 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     DEBUG_PRINT_FORMAT(
             "<intraAnalysis>---------AA sets begin---------\n%s\n<doAnalysis>---------AA sets end---------\n",
             aaHelper.toString().data());
-
-    if (params.debug)
-        printCFG(cur_func);
+    //if (params.debug) printCFG(cur_func);
 
     if (cur_func->empty())
         return;
@@ -225,17 +271,24 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
         }
     }
     // add variables in memref set whose out fact is greater than 0
+    endFuncInf.clear();
     for (auto &kv: outFacts) {
         for (auto &pair: kv.second.getCntMap()) {
-            if (pair.second > 0) {
+            if (pair.second != 0) {
                 for (auto &v: aaHelper.getMemRefSet(pair.first)) {
-                    RecntErrorMsg msg(0, pair.first, cur_func, v, RecntErrorMsg::MLK);
-                    errList.emplace_back(msg);
+                    if (pair.second > 0) {
+                        RecntErrorMsg msg(0, pair.first, cur_func, v, RecntErrorMsg::MLK);
+                        errList.emplace_back(msg);
+                    }
+                    EndFuncRef efr;
+                    efr.ref = pair.second;
+                    efr.memref = v;
+                    endFuncInf.emplace_back(efr);
                 }
             }
         }
     }
-
+    endFuncTab[cur_func] = endFuncInf;
     errTab[cur_func] = errList;
     bugReport();
 
@@ -253,12 +306,12 @@ bool RefcntPass::runOnModule(Module &M) {
     outs() << "====================analyses starts=======================\n";
     if (entry_func != nullptr) {
         // Ok. we have entry function now.
-        DEBUG_PRINT_FORMAT("<runOnModule> analysis mode: %s\n", params.analysesMode.data());
+        DEBUG_PRINT_FORMAT("<runOnModule> analysis mode: %s\n", params.analysisMode.data());
         DEBUG_PRINT_FORMAT("<runOnModule> entry function: %s\n", entry_func->getName().data());
 
         // start analysis
         refcntAnalysis(entry_func);
-    }
+    } else outs() << "No entry function!\n";
 
     outs() << "=====================analyses ends========================\n";
     // We do not modify the code, so return false.
@@ -434,6 +487,7 @@ void RefcntPass::initAPIInfo() {
     apiInfo["PyDate_FromDate"] = {STRONGRET};
     apiInfo["PyDateTime_FromDateAndTime"] = {STRONGRET};
     apiInfo["PyDateTime_FromDateAndTimeAndFold"] = {STRONGRET};
+    apiInfo["PyErr_NewException"] = {STRONGRET};
     apiInfo["PyTime_FromTime"] = {STRONGRET};
     apiInfo["PyTime_FromTimeAndFold"] = {STRONGRET};
     apiInfo["PyDelta_FromDSU"] = {STRONGRET};
@@ -489,8 +543,8 @@ void RefcntPass::initAPIInfo() {
 }
 
 APIType RefcntPass::getAPIType(std::string name) {
-    if (!apiInfo.count(name)) {
-        DEBUG_PRINT_STR(("Not supported API: " + name + "\n"));
+    if (apiInfo.find(name) == apiInfo.end()) {
+        DEBUG_PRINT_STR(("<getAPIType> Not supported API: " + name + "\n"));
         return {TYPEUNDEFINE};
     }
     return apiInfo[name];
