@@ -13,7 +13,7 @@ bool Parser::JsonParser::parse(const std::string &path) {
     std::ifstream jfile(path.c_str(), std::ios::in);
     if (!jfile.is_open()) {
         outs() << "<parse> settings.json is not open, will use default settings\n";
-        return true;
+        return false;
     } else {
         try {
             json config = json::parse(jfile);

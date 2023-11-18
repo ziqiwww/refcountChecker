@@ -15,7 +15,7 @@ bool Fact::update(llvm::Value *v, int c) {
         cntMap.insert({v, c});
         return false;
     }
-    cntMap[v] += c;
+    cntMap[v] = c;
     return true;
 }
 
