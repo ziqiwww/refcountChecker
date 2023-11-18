@@ -87,6 +87,7 @@ namespace {
         PARAMSTEAL,
         PARAMBORROW,
         PARAMSTRONG,
+        IGNORE,
         TYPEUNDEFINE
     };
 

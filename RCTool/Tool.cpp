@@ -25,8 +25,9 @@ int Tool::run() {
     std::string ll_path = params.modulePath + ".ll";
     ircmd.append("-o " + ll_path);
     if (system(ircmd.c_str()) != 0)return 1;
+    // supported aa: --basic-aa, --scev-aa, --scoped-noalias-aa, --tbaa, --objcarc-aa, --basicaa, --aa-eval
     std::string opt_cmd(
-            "opt -load ../lib/libRefcntAnalysis.so -refcnt --basic-aa -aa-eval -print-all-alias-modref-info ");
+            "opt -load ../lib/libRefcntAnalysis.so -refcnt --scev-aa -aa-eval -print-all-alias-modref-info ");
     //-steens-aa
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");

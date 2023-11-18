@@ -7,6 +7,7 @@
 
 #include <llvm/Analysis/AliasAnalysis.h>
 #include <llvm/Analysis/BasicAliasAnalysis.h>
+#include <llvm/Analysis/ScopedNoAliasAA.h>
 #include<llvm/Analysis/AliasSetTracker.h>
 #include <unordered_map>
 
@@ -25,6 +26,8 @@ public:
     llvm::Value *getMemRef(const llvm::Value *v);
 
     const std::set<llvm::Value *> &getMemRefSet(const llvm::Value *v);
+
+    void addAAValueMemRef(llvm::Value *v, llvm::Value *memref);
 
     /// print AASet
     std::string toString();

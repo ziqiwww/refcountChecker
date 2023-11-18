@@ -31,6 +31,7 @@ llvm::Value *AAHelper::getMemRef(const llvm::Value *v) {
         else {
             for (auto &v2: kv.second) {
                 if (!AA.isNoAlias(v, v2)) {
+
                     kv.second.insert(const_cast<llvm::Value *>(v));
                     return kv.first;
                 }
@@ -54,4 +55,12 @@ std::string AAHelper::toString() {
 
 const std::set<llvm::Value *> &AAHelper::getMemRefSet(const llvm::Value *v) {
     return AASet[getMemRef(v)];
+}
+
+void AAHelper::addAAValueMemRef(llvm::Value *v, llvm::Value *memref) {
+    assert(memref->hasName());
+    if (AASet.find(memref) == AASet.end()) {
+        AASet[memref] = std::set<llvm::Value *>();
+    }
+    AASet[memref].insert(v);
 }

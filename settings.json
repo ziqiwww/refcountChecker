@@ -8,8 +8,8 @@
         ]
     },
     "AnalysisConfig": {
-        "analysisMode": "inter",
-        "entry": "PyInit_spam",
-        "verbose": true
+      "analysisMode": "intra",
+      "entry": "PyInit_spam",
+      "verbose": true
     }
 }

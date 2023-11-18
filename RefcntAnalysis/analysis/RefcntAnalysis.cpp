@@ -104,7 +104,10 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                     // case 1: return strong reference
                     //if (name == "PyModule_Create2" || name == "PyErr_NewException") {
                     auto apiType = getAPIType(name.str());
-                    if (apiType.tag == STRONGRET) {
+                    if (apiType.tag == IGNORE) {
+                        // like PyList_Size()
+                        break;
+                    } else if (apiType.tag == STRONGRET) {
                         const auto *ret = dyn_cast<Value>(callInst);
                         Value *memref = aaHelper.getMemRef(ret);
                         assert(memref != nullptr);
@@ -242,6 +245,35 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     // get alias analysis result
     auto &AA = getAnalysis<AAResultsWrapperPass>(*cur_func).getAAResults();
     AAHelper aaHelper(AA, cur_func);
+    // get all load and store instructions and do the following things:
+    // example: %5 = load i32, ptr %i, align 4, then call aaHelper.addAAValueAs(%5, %i)
+    // example: store ptr %list, ptr %list.addr, align 8, then call aaHelper.addAAValueAs(%list.addr, %list)
+    // should check that value to be stored should not be constant
+    for (BasicBlock &bb: *cur_func) {
+        for (Instruction &inst: bb) {
+            unsigned op = inst.getOpcode();
+            switch (op) {
+                case Instruction::Load: {
+                    auto *loadInst = dyn_cast<LoadInst>(&inst);
+                    Value *memref = aaHelper.getMemRef(loadInst->getPointerOperand());
+                    assert(memref != nullptr);
+                    DEBUG_PRINT_FORMAT("<refcntAnalysis> memref: %s\n", memref->getName().data());
+                    aaHelper.addAAValueMemRef(loadInst, memref);
+                    break;
+                }
+                case Instruction::Store: {
+                    auto *storeInst = dyn_cast<StoreInst>(&inst);
+                    Value *memref = aaHelper.getMemRef(storeInst->getPointerOperand());
+                    assert(memref != nullptr);
+                    DEBUG_PRINT_FORMAT("<refcntAnalysis> memref: %s\n", memref->getName().data());
+                    aaHelper.addAAValueMemRef(storeInst->getValueOperand(), memref);
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    }
     DEBUG_PRINT_STR("<doAnalysis> intra analysis started\n");
     DEBUG_PRINT_FORMAT("<doAnalysis> function: %s\n", cur_func->getName().data());
     DEBUG_PRINT_FORMAT(
@@ -255,7 +287,10 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     using std::deque, std::set;
     deque<BasicBlock *> workList;
     // we do forward analysis
-    workList.emplace_back(&cur_func->getEntryBlock());
+    // initialize worklist with all blocks
+    for (BasicBlock &bb: *cur_func) {
+        workList.emplace_back(&bb);
+    }
     while (!workList.empty()) {
         // currently analyzed block
         BasicBlock *block = workList.front();
@@ -426,6 +461,7 @@ void RefcntPass::initAPIInfo() {
     apiInfo["PyList_New"] = {STRONGRET};
     apiInfo["PyList_GetSlice"] = {STRONGRET};
     apiInfo["PyList_AsTuple"] = {STRONGRET};
+    apiInfo["PyList_Size"] = {IGNORE};
     apiInfo["PyDict_New"] = {STRONGRET};
     apiInfo["PyDictProxy_New"] = {STRONGRET};
     apiInfo["PyDict_Copy"] = {STRONGRET};
