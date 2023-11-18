@@ -370,7 +370,9 @@ void RefcntPass::bugReport() {
     }
     DEBUG_PRINT_STR("<bugReport> bugs found:\n");
     for (const auto &msg: errList) {
-        DEBUG_PRINT_FORMAT("<bugReport> %s\n", msg.toString().data());
+        std::string cur_msg = msg.toString();
+        if (cur_msg.empty())continue;
+        DEBUG_PRINT_FORMAT("<bugReport> %s\n", cur_msg.data());
     }
 }
 

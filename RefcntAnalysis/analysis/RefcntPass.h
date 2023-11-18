@@ -57,6 +57,7 @@ namespace {
                 errorType(errorType) {}
 
         [[nodiscard]] std::string toString() const {
+            if (!var->hasName()) return "";
             std::string type;
             switch (errorType) {
                 case UAF:
