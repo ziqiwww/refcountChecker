@@ -1,6 +1,7 @@
 {
     "ToolConfig": {
         "clang": "clang",
+        "opt": "opt",
         "module": "/Users/ziqi/Work/pyc/workaround/refcountChecker/test/spammodule.c",
         "args": [
             "-I",

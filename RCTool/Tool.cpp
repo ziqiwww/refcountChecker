@@ -4,19 +4,22 @@
 
 #include "Tool.h"
 #include "config.h"
+#include <iostream>
 
-bool Tool::setParam() {
+Tool::Tool(const std::string &settingsPath) {
     JsonParser parser;
     // FIXME: settings path
-    bool err = parser.parse(PROJECT_ROOT + "settings.json");
-    if (!err)return false;
+    bool err = parser.parse(settingsPath);
+    if (!err) {
+        std::cerr << "error occurred when parsing json\n";
+        exit(1);
+    }
     params = parser.params;
     plugins = parser.plugins;
-    return true;
 }
 
+
 int Tool::run() {
-    if (!setParam())return 1;
     // generate IR
     std::string ircmd(params.clangPath + ' ');
     for (const auto &arg: params.args) {
@@ -27,8 +30,8 @@ int Tool::run() {
     ircmd.append("-o " + ll_path);
     if (system(ircmd.c_str()) != 0)return 1;
     // supported aa: --basic-aa, --scev-aa, --scoped-noalias-aa, --tbaa, --objcarc-aa, --basicaa, --aa-eval
-    std::string opt_cmd(
-            "opt -load ../lib/libRefcntAnalysis.so -refcnt --scev-aa -aa-eval -print-all-alias-modref-info ");
+    std::string opt_cmd(params.optPath + ' ');
+    opt_cmd.append("-load ../lib/libRefcntAnalysis.so -refcnt --scev-aa -aa-eval -print-all-alias-modref-info ");
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:
@@ -41,3 +44,5 @@ int Tool::run() {
     // analysis begins
     return system(opt_cmd.c_str());
 }
+
+

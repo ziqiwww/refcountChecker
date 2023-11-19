@@ -13,12 +13,13 @@
 
 struct ToolParam {
     std::string clangPath;
+    std::string optPath;
     std::vector<std::string> args;
     std::string modulePath;
 
     ToolParam();
 
-    bool setClang(const std::string &clang);
+    bool setOrDefault(std::string &target, const std::string &src);
 };
 
 struct PluginParam {

@@ -14,8 +14,7 @@ private:
     std::vector<PluginParam> plugins;
 
 public:
-
-    bool setParam();
+    explicit Tool(const std::string &settingsPath = "settings.json");
 
     int run();
 };

@@ -20,7 +20,9 @@ bool JsonParser::parse(const std::string &path) {
              =============================================*/
             auto tool_conf = config.at("ToolConfig");
             std::string clang = tool_conf.at("clang");
-            params.setClang(clang);
+            params.setOrDefault(params.clangPath, clang);
+            std::string opt = tool_conf.at("opt");
+            params.setOrDefault(params.optPath, opt);
             auto module = tool_conf.at("module");
             if (module == nullptr) {
                 std::cerr << "module path can not be empty, add \"module\" entry to settings\n";
@@ -59,24 +61,25 @@ ToolParam::ToolParam() {
     args.emplace_back("-fno-discard-value-names");  // keep value names from the source file
 }
 
-bool ToolParam::setClang(const std::string &clang) {
-    if (!clang.empty()) {
-        clangPath = clang;
+bool ToolParam::setOrDefault(std::string &target, const std::string &src) {
+    if (!src.empty()) {
+        target = src;
         return true;
     }
+    std::string query = "which " + src;
     char buffer[1024];
-    std::FILE *pipe = popen("which clang", "r");
+    std::FILE *pipe = popen(query.c_str(), "r");
 
     if (pipe == nullptr) {
-        std::cerr << "Failed to get default clang path\n" << std::endl;
+        std::cerr << "Failed to get default setting path: " << src << std::endl;
         return false;
     }
 
     while (std::fgets(buffer, sizeof(buffer), pipe) != nullptr) {
         // Remove the newline character from the end of the path
         buffer[std::strcspn(buffer, "\n")] = '\0';
-        std::cout << "Use default clang path: " << buffer << std::endl;
-        clangPath = buffer;
+        std::cout << "Use default setting path: " << buffer << std::endl;
+        target = buffer;
     }
     pclose(pipe);
     return true;
