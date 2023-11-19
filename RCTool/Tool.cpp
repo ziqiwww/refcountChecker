@@ -33,12 +33,11 @@ int Tool::run() {
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:
     // https://stackoverflow.com/questions/29758987/using-llvm-opt-with-built-in-passes
-    // analysis begins
-    system(opt_cmd.c_str());
     // plugins
     for (const auto &plugin: plugins) {
         std::string plugin_cmd(plugin.pluginCmd);
         system(plugin_cmd.c_str());
     }
-    return
+    // analysis begins
+    return system(opt_cmd.c_str());
 }

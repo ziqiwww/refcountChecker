@@ -24,8 +24,6 @@ struct ToolParam {
 struct PluginParam {
     std::string pluginName;
     std::string pluginCmd;
-
-    PluginParam();
 };
 
 class JsonParser {

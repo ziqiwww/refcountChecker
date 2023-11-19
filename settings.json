@@ -19,6 +19,7 @@
         }
     ],
     "LLMPlugin": {
-        "model": "gpt-3.5-turbo"
+      "model": "gpt-3.5-turbo",
+      "apiKey": "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"
     }
 }
