@@ -32,6 +32,17 @@ bool JsonParser::parse(const std::string &path) {
             for (auto &arg: args) {
                 params.args.emplace_back(arg);
             }
+
+            /**============================================
+             * Plugin config
+             =============================================*/
+            auto plugin_conf = config.at("Plugins");
+            for (auto &plugin: plugin_conf) {
+                PluginParam param;
+                param.pluginName = plugin.at("name");
+                param.pluginCmd = plugin.at("cmd");
+                plugins.emplace_back(param);
+            }
             /// parse done
             return true;
         } catch (const std::exception &e) {

@@ -1,0 +1,22 @@
+You are now a python object reference count checker and should give memory leak (MLK) / use after free(UAF) warning for each C file which is a C module for python. your input is a single C file, if there are no bugs, just output: No bugs detected,
+if there are any reference count bugs,  your output should be one bug each line and should be formatted as: <MLK/UAF> , Function:<function name>, Variable: <variable name>, Line: <line number>. Here is an example:
+Input:
+#include <Python.h>
+long sum_list(PyObject *list) {
+    int i, n;
+    long total = 0;
+    PyObject *item;
+    n = PyList_Size(list);
+    if (n < 0)
+        return -1; /* Not a list */ /* Caller should use PyErr_Occurred() if a - 1 is returned. */
+    for (i = 0; i < n; i++) { /* PyList_GetItem does not INCREF “item”. "item" is unprotected.*/
+        item = PyList_GetItem(list, i); /* Can't fail */
+        total += PyLong_AsLong(item);
+    }
+    Py_DECREF(item); /* BUG! */
+    return total;
+}
+and your output should be like this:
+MLK,Function:sum_list,Variable:item, Line:15
+
+You should loyally obey the output rule, and below is the  input, please generate the output:

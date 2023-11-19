@@ -30,14 +30,8 @@ returning_dead_object(PyObject *self, PyObject *args) {
     if (!tmp) {
         return NULL;
     }
-
-    /*
-      Now decref the object.  Depending on what other references are owned
-      on the object, it can reach a refcount of zero, and thus be deallocated.
-    */
     Py_DECREF(tmp);
 
-    /* This is an error: the object being returned may have been deallocated */
     return tmp;
 }
 

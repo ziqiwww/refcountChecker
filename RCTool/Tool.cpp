@@ -11,6 +11,7 @@ bool Tool::setParam() {
     bool err = parser.parse(PROJECT_ROOT + "settings.json");
     if (!err)return false;
     params = parser.params;
+    plugins = parser.plugins;
     return true;
 }
 
@@ -28,11 +29,16 @@ int Tool::run() {
     // supported aa: --basic-aa, --scev-aa, --scoped-noalias-aa, --tbaa, --objcarc-aa, --basicaa, --aa-eval
     std::string opt_cmd(
             "opt -load ../lib/libRefcntAnalysis.so -refcnt --scev-aa -aa-eval -print-all-alias-modref-info ");
-    //-steens-aa
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:
     // https://stackoverflow.com/questions/29758987/using-llvm-opt-with-built-in-passes
     // analysis begins
-    return system(opt_cmd.c_str());
+    system(opt_cmd.c_str());
+    // plugins
+    for (const auto &plugin: plugins) {
+        std::string plugin_cmd(plugin.pluginCmd);
+        system(plugin_cmd.c_str());
+    }
+    return
 }

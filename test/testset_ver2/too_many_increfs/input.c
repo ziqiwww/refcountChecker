@@ -20,12 +20,9 @@
 #include <Python.h>
 
 PyObject *
-too_many_increfs(PyObject *self, PyObject *args) {
+test(PyObject *self, PyObject *args) {
     PyObject *tmp;
     tmp = PyLong_FromLong(0x1000);
-
-    /* This INCREF is redundant, and introduces a leak (or a read through
-       NULL): */
     Py_INCREF(tmp);
     return tmp;
 }

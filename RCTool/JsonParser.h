@@ -21,12 +21,21 @@ struct ToolParam {
     bool setClang(const std::string &clang);
 };
 
+struct PluginParam {
+    std::string pluginName;
+    std::string pluginCmd;
+
+    PluginParam();
+};
+
 class JsonParser {
 public:
     /// tool parameters
 
     /// analyze parameters
     ToolParam params;
+
+    std::vector<PluginParam> plugins;
 
     bool parse(const std::string &path);
 

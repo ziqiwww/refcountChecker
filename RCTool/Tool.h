@@ -10,6 +10,9 @@
 class Tool {
 private:
     ToolParam params;
+
+    std::vector<PluginParam> plugins;
+
 public:
 
     bool setParam();
