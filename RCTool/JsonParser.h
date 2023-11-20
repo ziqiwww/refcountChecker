@@ -14,12 +14,15 @@
 struct ToolParam {
     std::string clangPath;
     std::string optPath;
+    std::string AAstrategy;
     std::vector<std::string> args;
     std::string modulePath;
 
     ToolParam();
 
     bool setOrDefault(std::string &target, const std::string &src);
+
+    static std::string aaTypeToCmdArg(const std::string &type);
 };
 
 struct PluginParam {

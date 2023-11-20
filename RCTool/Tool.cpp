@@ -31,7 +31,10 @@ int Tool::run() {
     if (system(ircmd.c_str()) != 0)return 1;
     // supported aa: --basic-aa, --scev-aa, --scoped-noalias-aa, --tbaa, --objcarc-aa, --basicaa, --aa-eval
     std::string opt_cmd(params.optPath + ' ');
-    opt_cmd.append("-load ../lib/libRefcntAnalysis.so -refcnt --scev-aa -aa-eval -print-all-alias-modref-info ");
+    opt_cmd.append("-load ../lib/libRefcntAnalysis.so -refcnt ");
+    opt_cmd.append(params.AAstrategy + ' ');
+    // use --aa-eval to print out alias analysis result
+    opt_cmd.append("-print-all-alias-modref-info ");
     opt_cmd.append(ll_path + ' ');
     opt_cmd.append("-enable-new-pm=0");
     //change /dev/null to print out modified ir:

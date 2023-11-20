@@ -11,6 +11,7 @@
     "AnalysisConfig": {
         "analysisMode": "intra",
         "entry": "PyInit_spam",
+        "AAstrategy": "scev",
         "verbose": true
     },
     "Plugins": [

@@ -35,6 +35,9 @@ bool JsonParser::parse(const std::string &path) {
                 params.args.emplace_back(arg);
             }
 
+            std::string AAstrategy = config.at("AnalysisConfig").at("AAstrategy");
+            params.AAstrategy = ToolParam::aaTypeToCmdArg(AAstrategy);
+
             /**============================================
              * Plugin config
              =============================================*/
@@ -83,4 +86,21 @@ bool ToolParam::setOrDefault(std::string &target, const std::string &src) {
     }
     pclose(pipe);
     return true;
+}
+
+std::string ToolParam::aaTypeToCmdArg(const std::string &type) {
+    if (type == "scev") {
+        return "--scev-aa";
+    } else if (type == "scoped-noalias") {
+        return "--scoped-noalias-aa";
+    } else if (type == "tbaa") {
+        return "--tbaa";
+    } else if (type == "objcarc") {
+        return "--objcarc-aa";
+    } else if (type == "basicaa") {
+        return "--basic-aa";
+    } else {
+        std::cerr << "unsupported AA type: " << type << ", use basic aa as default" << std::endl;
+        return "--basic-aa";
+    }
 }
