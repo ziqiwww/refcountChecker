@@ -41,6 +41,17 @@ llvm::Value *AAHelper::getMemRef(const llvm::Value *v) {
     return nullptr;
 }
 
+std::vector<llvm::Value *> AAHelper::getNamedAlias(const llvm::Value *v) {
+    const auto &memrefSet = getMemRefSet(v);
+    std::vector<llvm::Value *> ret;
+    for (auto v2: memrefSet) {
+        if (v2->hasName()) {
+            ret.emplace_back(v2);
+        }
+    }
+    return ret;
+}
+
 std::string AAHelper::toString() {
     std::string str;
     for (auto &kv: AASet) {

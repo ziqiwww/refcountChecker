@@ -14,6 +14,7 @@
 #include <llvm/IR/Instructions.h>
 
 namespace RCFact {
+    constexpr int MAX_REF_CNT = 1024;
 
     class Fact {
     private:

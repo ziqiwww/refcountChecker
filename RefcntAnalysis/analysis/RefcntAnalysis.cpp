@@ -45,6 +45,7 @@ void RefcntPass::init_pass() {
 }
 
 bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
+    RCFact::Fact oldOutFact = outFacts[bb];
     for (const Instruction &inst: *bb) {
         unsigned op = inst.getOpcode();
         switch (op) {
@@ -62,13 +63,19 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                     if (outerMemSet.find(memref) != outerMemSet.end()) {
                         DEBUG_PRINT_STR("<transferNode> outer memref should not be managed\n");
                         errList.emplace_back(0, memref, bb->getParent(), callInst->getArgOperand(0),
-                                             RecntErrorMsg::NMC);
+                                             RefcntErrorMsg::NMC);
                         break;
                     }
                     // update outfacts
                     int incnt = inFacts[bb].at(memref);
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? 1 : incnt + 1);
+                    if (outFacts[bb].at(memref) > RCFact::MAX_REF_CNT) {
+                        DEBUG_PRINT_STR("<transferNode> maximum refcount exceeded, treat as MLK.\n");
+                        RefcntErrorMsg msg(0, memref, bb->getParent(), callInst->getArgOperand(0), RefcntErrorMsg::MLK);
+                        errList.emplace_back(msg);
+                        outFacts[bb].update(memref, RCFact::Fact::NAC);
+                    }
                 } else if (name == DECREF_STR || name == XDECREF_STR) {
                     Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
                     assert(memref != nullptr);
@@ -76,17 +83,14 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                     if (outerMemSet.find(memref) != outerMemSet.end()) {
                         DEBUG_PRINT_STR("<transferNode> outer memref should not be managed\n");
                         errList.emplace_back(0, memref, bb->getParent(), callInst->getArgOperand(0),
-                                             RecntErrorMsg::NMC);
+                                             RefcntErrorMsg::NMC);
                         break;
                     }
                     int incnt = inFacts[bb].at(memref);
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? RCFact::Fact::NAC : incnt - 1);
                     if (outFacts[bb].at(memref) < 0) {
-
-                        RecntErrorMsg msg(0, memref, bb->getParent(), callInst->getArgOperand(0), RecntErrorMsg::UAF);
-                        // FIXME: find a way to get the number of this line, the following line will corrupt
-//                        msg.pos = inst.getDebugLoc().getLine();
+                        RefcntErrorMsg msg(0, memref, bb->getParent(), callInst->getArgOperand(0), RefcntErrorMsg::UAF);
                         errList.emplace_back(msg);
                     }
                 } else if (name == NEWREF_STR) {
@@ -120,6 +124,9 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         Value *memref = aaHelper.getMemRef(ret);
                         assert(memref != nullptr);
                         DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
+                        int incnt = inFacts[bb].at(memref);
+                        if (incnt == RCFact::Fact::NAC)break;
+                        outFacts[bb].update(memref, 0);
                         break;
                     } else if (apiType.tag == PARAMSTEAL) {
                         for (int i = 0; i < apiType.target_param_num; i++) {
@@ -156,7 +163,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                             // user defined function, store in out facts and errlist of current analysis.
                             std::unordered_map<BasicBlock *, RCFact::Fact> curInFacts = inFacts;
                             std::unordered_map<BasicBlock *, RCFact::Fact> curOutFacts = outFacts;
-                            std::list<RecntErrorMsg> curErrList = errList;
+                            std::list<RefcntErrorMsg> curErrList = errList;
                             std::unordered_set<Value *> curOuterMemSet = outerMemSet;
                             inFacts.clear(), outFacts.clear(), errList.clear(), outerMemSet.clear();
                             refcntAnalysis(calledFunction);
@@ -225,7 +232,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                 break;
         }
     }
-    return inFacts[bb] != outFacts[bb];
+    return oldOutFact != outFacts[bb];
 }
 
 bool RefcntPass::transferEdge(BasicBlock *src, BasicBlock *dst) {
@@ -286,7 +293,6 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     // prepare to traverse CFG
     using std::deque, std::set;
     deque<BasicBlock *> workList;
-    std::unordered_set<BasicBlock *> visited;
     // we do forward analysis
     // initialize worklist with all blocks
     for (BasicBlock &bb: *cur_func) {
@@ -296,8 +302,6 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
         // currently analyzed block
         BasicBlock *block = workList.front();
         workList.pop_front();
-        if (visited.find(block) != visited.end())continue;
-        visited.insert(block);
         // meet out facts into in fact from predecessors
         inFacts[block] = RCFact::Fact();
         for (BasicBlock *pred: predecessors(block)) {
@@ -315,7 +319,7 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
             if (pair.second != 0) {
                 for (auto &v: aaHelper.getMemRefSet(pair.first)) {
                     if (pair.second > 0) {
-                        RecntErrorMsg msg(0, pair.first, cur_func, v, RecntErrorMsg::MLK);
+                        RefcntErrorMsg msg(0, pair.first, cur_func, v, RefcntErrorMsg::MLK);
                         errList.emplace_back(msg);
                     }
                     EndFuncRef efr;
@@ -326,6 +330,21 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
             }
         }
     }
+
+    // replace values without name to alias values with name
+    std::list<RefcntErrorMsg> namedErrList;
+    for (auto &msg: errList) {
+        if (msg.var->hasName())namedErrList.emplace_back(msg);
+        else {
+            auto aliasSet = aaHelper.getNamedAlias(msg.var);
+            for (auto alias: aliasSet) {
+                RefcntErrorMsg newMsg(msg);
+                newMsg.var = alias;
+                namedErrList.emplace_back(newMsg);
+            }
+        }
+    }
+    errList = namedErrList;
     endFuncTab[cur_func] = endFuncInf;
     errTab[cur_func] = errList;
     bugReport();
@@ -372,10 +391,12 @@ void RefcntPass::bugReport() {
         return;
     }
     DEBUG_PRINT_STR("<bugReport> bugs found:\n");
+    std::unordered_set<std::string> board;
     for (const auto &msg: errList) {
-        std::string cur_msg = msg.toString();
-        if (cur_msg.empty())continue;
-        DEBUG_PRINT_FORMAT("<bugReport> %s\n", cur_msg.data());
+        board.emplace(msg.toString());
+    }
+    for (auto &msg_str: board) {
+        DEBUG_PRINT_FORMAT("<bugReport> %s\n", msg_str.c_str());
     }
 }
 

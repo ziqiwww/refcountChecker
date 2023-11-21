@@ -36,8 +36,7 @@ namespace llvm {
 
 namespace {
 
-
-    struct RecntErrorMsg {
+    struct RefcntErrorMsg {
         enum RefcntErrorType {
             UAF,    // use after free
             MLK,    // memory leak
@@ -49,7 +48,7 @@ namespace {
         Value *var;
         RefcntErrorType errorType;
 
-        RecntErrorMsg(long pos, Value *memref, Function *func, Value *var, RefcntErrorType errorType) :
+        RefcntErrorMsg(long pos, Value *memref, Function *func, Value *var, RefcntErrorType errorType) :
                 pos(pos),
                 memref(memref),
                 func(func),
@@ -57,7 +56,6 @@ namespace {
                 errorType(errorType) {}
 
         [[nodiscard]] std::string toString() const {
-            if (!var->hasName()) return "";
             std::string type;
             switch (errorType) {
                 case UAF:
@@ -123,9 +121,9 @@ namespace {
         // record memref that the current analysed function should not manage
         std::unordered_set<Value *> outerMemSet;
 
-        std::list<RecntErrorMsg> errList;
+        std::list<RefcntErrorMsg> errList;
 
-        std::unordered_map<Function *, std::list<RecntErrorMsg>> errTab;
+        std::unordered_map<Function *, std::list<RefcntErrorMsg>> errTab;
 
         std::unordered_map<std::string, APIType> apiInfo;
 

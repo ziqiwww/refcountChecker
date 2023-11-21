@@ -25,6 +25,9 @@ public:
     /// get representative value(formatted 'AAMemRef__No__') of v
     llvm::Value *getMemRef(const llvm::Value *v);
 
+    /// get a named alias for v without name
+    std::vector<llvm::Value *> getNamedAlias(const llvm::Value *v);
+
     const std::set<llvm::Value *> &getMemRefSet(const llvm::Value *v);
 
     void addAAValueMemRef(llvm::Value *v, llvm::Value *memref);

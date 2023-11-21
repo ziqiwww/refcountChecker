@@ -14,4 +14,9 @@ long sum_list(PyObject *list) {
     }
     Py_DECREF(item); /* BUG! */
     return total;
+//    PyObject *item = PyLong_FromLong(1);
+//    while(1){
+//        Py_INCREF(item);
+//    }
+//    return 0;
 }
