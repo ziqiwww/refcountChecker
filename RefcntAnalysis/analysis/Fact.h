@@ -21,8 +21,8 @@ namespace RCFact {
         std::unordered_map<llvm::Value *, int> cntMap;
     public:
         enum {
-            UNDEF = -1,
-            NAC = -2
+            UNDEF = -MAX_REF_CNT - 1,
+            NAC = -MAX_REF_CNT
         };
 
         Fact() = default;

@@ -46,6 +46,7 @@ void RefcntPass::init_pass() {
 
 bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
     RCFact::Fact oldOutFact = outFacts[bb];
+    outFacts[bb] = inFacts[bb];
     for (const Instruction &inst: *bb) {
         unsigned op = inst.getOpcode();
         switch (op) {
@@ -67,7 +68,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         break;
                     }
                     // update outfacts
-                    int incnt = inFacts[bb].at(memref);
+                    int incnt = outFacts[bb].at(memref);
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? 1 : incnt + 1);
                     if (outFacts[bb].at(memref) > RCFact::MAX_REF_CNT) {
@@ -86,7 +87,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                                              RefcntErrorMsg::NMC);
                         break;
                     }
-                    int incnt = inFacts[bb].at(memref);
+                    int incnt = outFacts[bb].at(memref);
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, incnt == RCFact::Fact::UNDEF ? RCFact::Fact::NAC : incnt - 1);
                     if (outFacts[bb].at(memref) < 0) {
@@ -97,7 +98,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                     Value *memref = aaHelper.getMemRef(callInst->getArgOperand(0));
                     assert(memref != nullptr);
                     DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
-                    int incnt = inFacts[bb].at(memref);
+                    int incnt = outFacts[bb].at(memref);
                     if (incnt == RCFact::Fact::NAC)break;
                     outFacts[bb].update(memref, 1);
                 } else {
@@ -116,7 +117,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         Value *memref = aaHelper.getMemRef(ret);
                         assert(memref != nullptr);
                         DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
-                        int incnt = inFacts[bb].at(memref);
+                        int incnt = outFacts[bb].at(memref);
                         if (incnt == RCFact::Fact::NAC)break;
                         outFacts[bb].update(memref, 1);
                     } else if (apiType.tag == WEAKRET) {
@@ -124,7 +125,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                         Value *memref = aaHelper.getMemRef(ret);
                         assert(memref != nullptr);
                         DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
-                        int incnt = inFacts[bb].at(memref);
+                        int incnt = outFacts[bb].at(memref);
                         if (incnt == RCFact::Fact::NAC)break;
                         outFacts[bb].update(memref, 0);
                         break;
@@ -134,7 +135,7 @@ bool RefcntPass::transferNode(BasicBlock *bb, AAHelper &aaHelper) {
                             Value *memref = aaHelper.getMemRef(curParam);
                             assert(memref != nullptr);
                             DEBUG_PRINT_FORMAT("<transferNode> memref: %s\n", memref->getName().data());
-                            int incnt = inFacts[bb].at(memref);
+                            int incnt = outFacts[bb].at(memref);
                             if (incnt == RCFact::Fact::NAC)break;
 
                             // stolen parameters should be kept a record

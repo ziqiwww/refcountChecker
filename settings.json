@@ -15,10 +15,6 @@
         "verbose": true
     },
     "Plugins": [
-        {
-            "name": "LLMPlugin",
-            "cmd": "python /Users/ziqi/Work/pyc/workaround/refcountChecker/LLMPlugin/RC_openai.py"
-        }
     ],
     "LLMPlugin": {
       "model": "gpt-3.5-turbo",
