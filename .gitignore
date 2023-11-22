@@ -6,3 +6,4 @@ cmake-build-debug/
 target/
 result/
 .DS_Store
+settings.json

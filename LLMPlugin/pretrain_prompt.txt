@@ -19,4 +19,4 @@ long sum_list(PyObject *list) {
 and your output should be like this:
 MLK,Function:sum_list,Variable:item, Line:15
 
-You should loyally obey the output rule, and below is the  input, please generate the output:
+You should loyally obey the output rule, and below is the input, please generate the output:

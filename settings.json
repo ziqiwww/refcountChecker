@@ -22,6 +22,6 @@
     ],
     "LLMPlugin": {
       "model": "gpt-3.5-turbo",
-      "apiKey": "YOUR_API_KEY"
+      "apiKey": "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"
     }
 }

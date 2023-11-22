@@ -602,6 +602,21 @@ void RefcntPass::initAPIInfo() {
     apiInfo["PyContextVar_Get"] = {PARAMSTRONG, 1, 2};
 
     apiInfo["PyDict_Next"] = {PARAMBORROW, 2, 3};
+
+    // additional rules
+    apiInfo["PyThreadState_GetDict"] = {WEAKRET};
+    apiInfo["PyDict_SetItemString"] = {PARAMBORROW, 1, 2};
+    apiInfo["PyErr_SetString"] = {IGNORE};
+    apiInfo["PyDict_SetItem"] = {PARAMBORROW, 2, 1, 2};
+    apiInfo["PyDict_SetItemString"] = {PARAMBORROW, 2, 1, 2};
+
+    apiInfo["Py_TYPE"] = {IGNORE};
+    apiInfo["PyErr_NoMemory"] = {IGNORE};
+
+    apiInfo["PyErr_SetString"] = {IGNORE};
+    apiInfo["PyErr_Occurred"] = {IGNORE};
+    apiInfo["PyErr_Print"] = {IGNORE};
+    apiInfo["PyErr_Clear"] = {IGNORE};
 }
 
 APIType RefcntPass::getAPIType(std::string name) {
