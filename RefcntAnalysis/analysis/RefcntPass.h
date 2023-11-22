@@ -161,7 +161,7 @@ namespace {
          * @brief report bugs found in functions recorded in errorLists and save to report.log
          * @param errLists
          */
-        void bugReport();
+        void bugReport(Function *cur_f);
 
         void initAPIInfo();
 

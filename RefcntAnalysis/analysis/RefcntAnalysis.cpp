@@ -347,7 +347,7 @@ void RefcntPass::refcntAnalysis(Function *cur_func) {
     errList = namedErrList;
     endFuncTab[cur_func] = endFuncInf;
     errTab[cur_func] = errList;
-    bugReport();
+    bugReport(cur_func);
 
 }
 
@@ -384,13 +384,13 @@ void RefcntPass::getAnalysisUsage(AnalysisUsage &AU) const {
     AU.setPreservesAll();
 }
 
-void RefcntPass::bugReport() {
+void RefcntPass::bugReport(Function *cur_f) {
     // report bugs found in functions recorded in errorLists and save to report.log
     if (errList.empty()) {
-        DEBUG_PRINT_STR("<bugReport> no bugs found\n");
+        DEBUG_PRINT_FORMAT("<bugReport> no bugs, Function: %s\n", cur_f->getName().data());
         return;
     }
-    DEBUG_PRINT_STR("<bugReport> bugs found:\n");
+    DEBUG_PRINT_FORMAT("<bugReport> bugs found, Function: %s\n", cur_f->getName().data());
     std::unordered_set<std::string> board;
     for (const auto &msg: errList) {
         board.emplace(msg.toString());
